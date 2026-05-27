@@ -38,18 +38,69 @@ It enables content creators to author complete landing pages (including headings
 
 ### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (ensure the Docker daemon is running).
+- Node.js v20+ (optional, for local development outside Docker).
+
+### Configuration & Google API Setup
+To fetch live content from the Google Docs and Drive APIs, configure your local environment:
+1. **Google Service Account**: Place your Google Cloud Service Account credentials JSON file in `apps/web-engine-project/service-account.json`.
+2. **Environment Variables**: Create a `.env` file in the root directory (already configured in `.gitignore`):
+   ```env
+   GOOGLE_DOC_ID=1VvQ0mb-e2J1qBD24f3geBcnqU28ep8eZDLzOKSVOIw4
+   GOOGLE_DRIVE_FOLDER_ID=1SuWQ9MJmfzJzhRD20bnV3A5ejIf8zVfy
+   GOOGLE_APPLICATION_CREDENTIALS=/app/service-account.json
+   ```
 
 ### Run the POC Services
-Boot the services (the CDN Nginx simulator on port `8080` and the Astro rendering container on port `3000`):
+Boot the multi-container stack:
 ```bash
 docker-compose up --build -d
 ```
+This launches three services in the shared Docker network:
+* **CDN Nginx Simulator**: Serves raw template assets at `http://localhost:8080`
+* **Image Optimizer Microservice**: Resizes and caches WebP assets at `http://localhost:3002`
+* **Astro SSR Render Engine**: Dynamically composes page layouts at `http://localhost:3001`
 
 ### Accessing the Demos
-- **Live Compiled Website**: Navigate to `http://localhost:3000/globant-demo` in your browser.
+- **Live Compiled Website**: Navigate to `http://localhost:3001/globant-demo` in your browser.
 - **CDN Simulated Snippets**: Navigate to `http://localhost:8080/Hero.html` to see the raw templates served by the CDN container.
 
-### Run Performance Benchmarks
+---
+
+## Developer Workflow & How to Contribute
+
+### 1. Modifying Frontend Components (CDN Assets)
+All visual templates, stylesheets, and vanilla scripts live under [core-assets-pipeline/src/](file:///Users/saurabh.sircar/Globant/astro-demo/core-assets-pipeline/src/).
+* **Hot-loading**: Because the Nginx container mounts the directory locally, any changes you make to CSS/HTML/JS inside `core-assets-pipeline/src/` are served instantly by the CDN.
+* **SWR Cache Flush**: The Astro rendering engine implements a 10-second fresh Stale-While-Revalidate (SWR) cache. When testing component modifications, wait 10 seconds and refresh the browser twice to see the updated assets, or run local benchmarks to trigger background revalidations.
+
+### 2. Modifying AST Parsing & Server Logic (Astro)
+Astro code resides in [apps/web-engine-project/](file:///Users/saurabh.sircar/Globant/astro-demo/apps/web-engine-project/).
+* **Rebuilding**: Astro runs in `preview` mode using a compiled server bundle loaded in container memory. If you edit server-side files (like `[...slug].astro` or helper files under `src/utils/`), you must rebuild the bundle:
+  ```bash
+  docker-compose exec web-engine npm run build
+  ```
+* **Restarting**: To apply the new build and flush the container's memory cache, restart the service:
+  ```bash
+  docker-compose restart web-engine
+  ```
+
+### 3. Local Development (Without Docker)
+If you prefer developing without Docker, you can run the services locally on your host machine:
+1. Start the image optimizer:
+   ```bash
+   cd apps/image-optimizer
+   npm install
+   npm start
+   ```
+2. Start the Astro SSR dev server:
+   ```bash
+   cd apps/web-engine-project
+   npm install
+   npm run dev
+   ```
+3. Update `.env` variable references to point to `localhost` rather than container hostnames (e.g. `CDN_URL=http://localhost:8080`).
+
+### 4. Running Performance Benchmarks
 Query the server and output response speed metrics:
 ```bash
 node scratch/test_server.mjs
