@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════════════════
+   TwoColumn — globant.com "Meet Globant AI Pods" style
+   White background, left text, right image
+   ═══════════════════════════════════════════════════════ */
+
+.twocol-section {
+  padding: 8rem 0;
+  position: relative;
+}
+
+/* Light theme (default) — white bg like globant.com AI Pods section */
+.twocol-section--light {
+  background-color: #ffffff;
+}
+
+/* Dark theme variant */
+.twocol-section--dark {
+  background-color: var(--color-bg-dark);
+}
+
+.twocol__container {
+  position: relative;
+}
+
+.twocol__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: center;
+}
+
+/* ── Left Column ──────────────────────────── */
+.twocol__left {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.twocol__eyebrow {
+  font-family: var(--font-title);
+  font-size: 1.2rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-primary);
+  margin-bottom: 1.6rem;
+}
+
+.twocol__title {
+  font-family: var(--font-title);
+  font-size: clamp(3rem, 4.5vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 2.4rem;
+}
+
+/* Light theme: dark text */
+.twocol-section--light .twocol__title {
+  color: #000000;
+}
+/* Dark theme: white text */
+.twocol-section--dark .twocol__title {
+  color: #ffffff;
+}
+
+.twocol__description {
+  font-size: clamp(1.5rem, 2vw, 1.8rem);
+  line-height: 1.65;
+  margin-bottom: 3.2rem;
+}
+
+.twocol-section--light .twocol__description {
+  color: #333333;
+}
+.twocol-section--dark .twocol__description {
+  color: var(--color-text-secondary);
+}
+
+/* CTA button — lime green pill like globant.com "Subscribe to the future" */
+.twocol__cta {
+  align-self: flex-start;
+}
+
+/* ── Right Column ─────────────────────────── */
+.twocol__right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.twocol__image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* ── Responsive ─────────────────────────────── */
+@media (max-width: 900px) {
+  .twocol__grid {
+    grid-template-columns: 1fr;
+    gap: 3.2rem;
+  }
+  .twocol__right {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .twocol-section { padding: 5.6rem 0; }
+}

@@ -1,0 +1,195 @@
+/* ═══════════════════════════════════════════════════════
+   Hero Component — Exact Globant.com Style
+   Full-bleed background photo + dark overlay + lime CTA
+   ═══════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  background-color: #000;
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  /* Padding ensures content clears the sticky header (~72px) */
+  padding: 12rem 0 8rem;
+}
+
+/* Dark overlay gradient — matches Globant's "linear-gradient(to right, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3) 100%)" */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.75) 45%,
+    rgba(0, 0, 0, 0.30) 100%
+  );
+  z-index: 1;
+}
+
+/* Subtle lime-green glow from bottom-left — Globant ambient accent */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -80px;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(ellipse, rgba(195, 213, 0, 0.07) 0%, transparent 70%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero__container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+/* Content sits in left ~55% of screen — matching globant.com layout */
+.hero__content {
+  max-width: 660px;
+  animation: heroFadeUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes heroFadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+/* FIFA badge / event pill — the little "OFFICIAL ... SUPPORTER" badge shown top-left */
+.hero__tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-title);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--color-primary);
+  margin-bottom: 2.4rem;
+
+  padding: 0.5rem 1.4rem 0.5rem 0.5rem;
+  background: rgba(195, 213, 0, 0.08);
+  border: 1px solid rgba(195, 213, 0, 0.28);
+  border-radius: 50px;
+}
+
+/* Small square icon/badge prefix inside tagline pill */
+.hero__tagline-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  background: var(--color-primary);
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.hero__tagline-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+  fill: #000;
+}
+
+/* The main headline — huge, white, heavy weight, no gradient */
+.hero__title {
+  font-family: var(--font-title);
+  font-size: clamp(3.2rem, 6.5vw, 6.0rem);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+/* Highlighted words in lime-green (like "World's" in FIFA page) */
+.hero__title strong, .hero__title b {
+  color: var(--color-primary);
+  font-weight: 900;
+}
+
+/* Subtitle — slightly muted grey, matches globant.com secondary text */
+.hero__description {
+  font-size: clamp(1.5rem, 2.2vw, 1.8rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin-bottom: 3.2rem;
+  max-width: 580px;
+}
+
+.hero__description em {
+  font-style: normal;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* CTA row */
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+/* ── Alignment modifiers ───────────────── */
+.hero--center {
+  text-align: center;
+}
+.hero--center .hero__content {
+  margin-inline: auto;
+}
+.hero--center .hero__tagline,
+.hero--center .hero__actions {
+  justify-content: center;
+}
+.hero--center .hero__description {
+  margin-inline: auto;
+}
+
+.hero--right {
+  text-align: right;
+}
+.hero--right .hero__content { margin-left: auto; }
+.hero--right .hero__tagline,
+.hero--right .hero__actions { justify-content: flex-end; }
+.hero--right .hero__description { margin-left: auto; }
+
+/* ── Theme: no background image (dark flat) ───────────── */
+.hero--theme-dark {
+  background-color: #000;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .hero {
+    min-height: 75vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    min-height: 65vh;
+    padding: 10rem 0 6rem;
+  }
+  .hero::before {
+    background: rgba(0, 0, 0, 0.80);
+  }
+  .hero__content {
+    max-width: 100%;
+  }
+  .hero__actions {
+    flex-direction: column;
+  }
+  .hero__actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

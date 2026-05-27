@@ -1,0 +1,18 @@
+<section class="services-grid-section">
+  <div class="container">
+    {{#if sectionTitle}}<h2 class="services-grid-title">{{sectionTitle}}</h2>{{/if}}
+    {{#if sectionSubtitle}}<p class="services-grid-subtitle">{{sectionSubtitle}}</p>{{/if}}
+    
+    <div class="services-grid">
+      {{#each items}}
+      <a href="{{link}}" class="service-card glow-effect">
+        <div class="service-card__content">
+          <h3 class="service-card__title">{{title}}</h3>
+          <p class="service-card__description">{{description}}</p>
+          <span class="service-card__link">Learn more <span class="arrow">&rarr;</span></span>
+        </div>
+      </a>
+      {{/each}}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,135 @@
+/* ═══════════════════════════════════════════════════════
+   StudioCards — globant.com "AI Studios" section
+   White background, industry photo cards in responsive grid
+   ═══════════════════════════════════════════════════════ */
+
+.studios-section {
+  padding: 8rem 0;
+  background-color: #ffffff;
+}
+
+.studios__title {
+  font-family: var(--font-title);
+  font-size: clamp(2.8rem, 5vw, 4rem);
+  font-weight: 900;
+  color: #000000;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.8rem;
+}
+
+.studios__subtitle {
+  font-family: var(--font-title);
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.8rem;
+}
+
+.studios__body {
+  font-size: 1.6rem;
+  color: #444444;
+  line-height: 1.65;
+  max-width: 780px;
+  margin-bottom: 4rem;
+}
+
+/* Grid — 4 columns on desktop (like globant.com), wraps down */
+.studios-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+/* Card */
+.studio-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow var(--transition-normal), transform var(--transition-normal);
+  background: #ffffff;
+}
+
+.studio-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Industry photo at top of card */
+.studio-card__img-wrap {
+  width: 100%;
+  aspect-ratio: 258 / 98; /* exact globant.com card image ratio */
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.studio-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--transition-normal);
+}
+
+.studio-card:hover .studio-card__img {
+  transform: scale(1.04);
+}
+
+/* Lime-green top accent bar */
+.studio-card__img-wrap::after {
+  content: '';
+  display: block;
+  height: 3px;
+  background: var(--color-primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-normal);
+}
+.studio-card:hover .studio-card__img-wrap::after {
+  transform: scaleX(1);
+}
+
+/* Card body */
+.studio-card__body {
+  padding: 1.6rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.studio-card__title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.studio-card__desc {
+  font-size: 1.35rem;
+  color: #555555;
+  line-height: 1.6;
+}
+
+/* CTA row */
+.studios__cta-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.6rem;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .studios-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .studios-section { padding: 5.6rem 0; }
+  .studios-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .studios-grid { grid-template-columns: 1fr; }
+}

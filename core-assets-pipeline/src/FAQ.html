@@ -1,0 +1,20 @@
+<section class="faq-section">
+  <div class="container faq__container">
+    {{#if sectionTitle}}<h2 class="faq-title">{{sectionTitle}}</h2>{{/if}}
+    {{#if sectionSubtitle}}<p class="faq-subtitle">{{sectionSubtitle}}</p>{{/if}}
+    
+    <div class="faq-accordion" data-faq-group>
+      {{#each items}}
+      <details name="faq-exclusive-group" class="faq-item">
+        <summary class="faq-item__question">
+          <span>{{question}}</span>
+          <span class="faq-item__icon">+</span>
+        </summary>
+        <div class="faq-item__answer-wrapper">
+          <div class="faq-item__answer">{{answer}}</div>
+        </div>
+      </details>
+      {{/each}}
+    </div>
+  </div>
+</section>

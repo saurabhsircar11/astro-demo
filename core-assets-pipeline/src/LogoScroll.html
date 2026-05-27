@@ -1,0 +1,20 @@
+<section class="logoscroll-section">
+  <div class="container">
+    {{#if sectionTitle}}<h2 class="logoscroll__title">{{sectionTitle}}</h2>{{/if}}
+  </div>
+  <div class="logoscroll__track-wrap" aria-hidden="true">
+    <div class="logoscroll__track">
+      {{#each items}}
+      <div class="logoscroll__logo">
+        <img src="{{logo}}" alt="{{name}}" loading="lazy" />
+      </div>
+      {{/each}}
+      {{!-- Duplicate for seamless infinite scroll --}}
+      {{#each items}}
+      <div class="logoscroll__logo" aria-hidden="true">
+        <img src="{{logo}}" alt="" loading="lazy" />
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>

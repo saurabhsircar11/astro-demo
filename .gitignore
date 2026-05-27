@@ -1,0 +1,18 @@
+# Environment variables and secrets
+.env
+.env.*
+service-account.json
+**/service-account.json
+
+# Node dependencies
+node_modules/
+dist/
+.astro/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cache and local temp files
+.cache/
+**/.cache/

@@ -1,0 +1,29 @@
+<section class="studios-section">
+  <div class="container">
+    {{#if sectionTitle}}<h2 class="studios__title">{{sectionTitle}}</h2>{{/if}}
+    {{#if sectionSubtitle}}<p class="studios__subtitle">{{sectionSubtitle}}</p>{{/if}}
+    {{#if sectionBody}}<p class="studios__body">{{sectionBody}}</p>{{/if}}
+
+    <div class="studios-grid">
+      {{#each items}}
+      <a href="{{link}}" class="studio-card">
+        {{#if image}}
+        <div class="studio-card__img-wrap">
+          <img class="studio-card__img" src="{{image}}" srcset="{{imageSrcset}}" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" alt="{{title}}" loading="lazy" />
+        </div>
+        {{/if}}
+        <div class="studio-card__body">
+          <h3 class="studio-card__title">{{title}}</h3>
+          <p class="studio-card__desc">{{description}}</p>
+        </div>
+      </a>
+      {{/each}}
+    </div>
+
+    {{#if ctaText}}
+    <div class="studios__cta-wrap">
+      <a href="{{ctaUrl}}" class="btn btn--primary">{{ctaText}}</a>
+    </div>
+    {{/if}}
+  </div>
+</section>

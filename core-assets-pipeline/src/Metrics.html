@@ -1,0 +1,13 @@
+<section class="metrics-section">
+  <div class="container">
+    {{#if sectionTitle}}<h2 class="metrics-title">{{sectionTitle}}</h2>{{/if}}
+    <div class="metrics-grid">
+      {{#each items}}
+      <div class="metric-item">
+        <div class="metric-item__value">{{value}}</div>
+        <p class="metric-item__label">{{label}}</p>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+</section>

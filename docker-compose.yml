@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # Simulated CDN / Edge Asset Store (e.g. Cloudflare KV or R2)
+  cdn-simulator:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./core-assets-pipeline/src:/usr/share/nginx/html:ro
+    restart: always
+
+  # Dedicated Image Optimization Microservice
+  image-optimizer:
+    build:
+      context: ./apps/image-optimizer
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./apps/image-optimizer:/app
+      - /app/node_modules
+    restart: always
+
+  # Astro SSR Render Engine
+  web-engine:
+    build:
+      context: ./apps/web-engine-project
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/web-engine-project:/app
+      - /app/node_modules # prevents local node_modules from overwriting docker node_modules
+    environment:
+      - NODE_ENV=development
+      - CDN_URL=http://cdn-simulator:80
+      - IMAGE_OPTIMIZER_URL=http://localhost:3002
+      - INTERNAL_IMAGE_OPTIMIZER_URL=http://image-optimizer:3002
+      - GOOGLE_DOC_ID=${GOOGLE_DOC_ID}
+      - GOOGLE_DRIVE_FOLDER_ID=${GOOGLE_DRIVE_FOLDER_ID}
+      - GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS}
+    depends_on:
+      - cdn-simulator
+      - image-optimizer
+    command: sh -c "node pre_warm.js & npm run build && npm run preview"
+    restart: always
