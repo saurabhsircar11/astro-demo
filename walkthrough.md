@@ -50,18 +50,25 @@ We have successfully built, integrated, and verified the request-time edge-compo
    - Synchronized head LCP preload tags with `imagesrcset` and `imagesizes` matching the Hero component parameters to ensure zero layout shift or double loading.
    - Integrated a persistent file cache at `/app/.cache/images/` inside the container volume to ensure cache hit responses return in **under 10ms** (no image re-rendering overhead).
 
+10. **Zero-Config Extensible Page Composition**:
+    - **Lowercase Kebab-Case Standard**: Renamed all CDN component layouts and style assets in `core-assets-pipeline/src/` to lowercase kebab-case (e.g. `studio-cards.html`/`studio-cards.css`, `two-column.html`/`two-column.css`).
+    - **Header-Defined Dynamic Keys**: Updated the parser in `docParser.ts` to map table lists to arrays of objects dynamically by converting the table's first list row (e.g. `Title | Description | Image | Link`) into lowercase keys.
+    - **Inline Paste Image Extraction**: Created `resolveCellValue` to automatically scan for inline-pasted images (which appear as `<img src="..."/>` tags) and extract their source URLs.
+    - **Recursive Schema-Free Optimizer**: Refactored `[...slug].astro` to recursively traverse the entire component block data and dynamically optimize any image URLs (matching extension patterns or image/background/logo/avatar keys) without hardcoding component name checks.
+
 ---
 
 ## Code Base Reference
 
 ### Components & Design System (CDN Asset Pipeline)
 - [index.css](./core-assets-pipeline/src/index.css) (Global styling tokens, dot grids, ambient light backgrounds)
-- [Hero.html](./core-assets-pipeline/src/Hero.html) & [Hero.css](./core-assets-pipeline/src/Hero.css) (Refactored background image to absolute img)
-- [ServicesGrid.html](./core-assets-pipeline/src/ServicesGrid.html) & [ServicesGrid.css](./core-assets-pipeline/src/ServicesGrid.css)
-- [Metrics.html](./core-assets-pipeline/src/Metrics.html) & [Metrics.css](./core-assets-pipeline/src/Metrics.css)
-- [FAQ.html](./core-assets-pipeline/src/FAQ.html), [FAQ.css](./core-assets-pipeline/src/FAQ.css) & [FAQ.js](./core-assets-pipeline/src/FAQ.js)
-- [TwoColumn.html](./core-assets-pipeline/src/TwoColumn.html) (Added srcset and sizes)
-- [StudioCards.html](./core-assets-pipeline/src/StudioCards.html) (Added srcset and sizes)
+- [hero.html](./core-assets-pipeline/src/hero.html) & [hero.css](./core-assets-pipeline/src/hero.css) (Refactored background image to absolute img)
+- [services-grid.html](./core-assets-pipeline/src/services-grid.html) & [services-grid.css](./core-assets-pipeline/src/services-grid.css)
+- [metrics.html](./core-assets-pipeline/src/metrics.html) & [metrics.css](./core-assets-pipeline/src/metrics.css)
+- [faq.html](./core-assets-pipeline/src/faq.html), [faq.css](./core-assets-pipeline/src/faq.css) & [faq.js](./core-assets-pipeline/src/faq.js)
+- [two-column.html](./core-assets-pipeline/src/two-column.html) (Added srcset and sizes)
+- [studio-cards.html](./core-assets-pipeline/src/studio-cards.html) (Added srcset and sizes)
+- [logo-scroll.html](./core-assets-pipeline/src/logo-scroll.html) & [logo-scroll.css](./core-assets-pipeline/src/logo-scroll.css)
 
 ### Standalone Image Optimizer (Microservice)
 - [package.json](./apps/image-optimizer/package.json) (Sharp image-processing dependencies)
@@ -88,7 +95,7 @@ A `curl` request to the `/globant-demo` route confirms the HTML is correctly ren
   ```html
   <link rel="preload" as="image" href="http://localhost:3002/?url=https%3A%2F%2Fstatics.globant.com%2Fproduction%2Fpublic%2F2026-02%2Fbg-desktop-fifa.jpg&amp;w=1400&amp;q=80" imagesrcset="http://localhost:3002/?url=...&amp;w=480&amp;q=80 480w, http://localhost:3002/?url=...&amp;w=800&amp;q=80 800w, ..." imagesizes="100vw" fetchpriority="high">
   ```
-- The `Hero`, `TwoColumn`, and `StudioCards` contain valid `srcset` properties directing request-time scaling to the `image-optimizer` microservice on port `3002`.
+- The `hero`, `two-column`, and `studio-cards` contain valid `srcset` properties directing request-time scaling to the `image-optimizer` microservice on port `3002`.
 
 ### 2. Image Optimization and Caching Headers
 A direct query to the microservice on port `3002` returns appropriate headers and verifies persistent caching:

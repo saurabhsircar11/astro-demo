@@ -11,6 +11,22 @@ function escapeHtml(text: string): string {
 }
 
 /**
+ * Helper to extract image URL from cell content if it only contains an image.
+ */
+function resolveCellValue(val: string): string {
+  if (!val) return '';
+  const trimmed = val.trim();
+  const imgMatch = trimmed.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (imgMatch) {
+    const withoutImg = trimmed.replace(/<img[^>]*>/gi, '').replace(/<\/?[^>]+(>|$)/g, '').trim();
+    if (!withoutImg) {
+      return imgMatch[1];
+    }
+  }
+  return trimmed;
+}
+
+/**
  * Extracts and translates a text run into an HTML fragment.
  */
 function parseTextRun(run: any): string {
@@ -155,117 +171,76 @@ function parseTableBlock(table: any, inlineObjects: any) {
   }
 
   // 2. Detect Components (format: "COMPONENT: ComponentName" or similar)
-  const componentMatch = headerText.match(/COMPONENT:\s*(\w+)/i);
+  const componentMatch = headerText.match(/COMPONENT:\s*([a-zA-Z0-9_-]+)/i);
   if (!componentMatch) return null;
 
-  const componentType = componentMatch[1];
-  const data: Record<string, any> = {};
+  // Convert to lowercase kebab-case for filename mapping
+  const componentType = componentMatch[1].toLowerCase().replace(/_/g, '-');
+  const properties: Record<string, string> = {};
+  const rawItems: string[][] = [];
 
-  // Check if component represents a list/grid structure (e.g., FAQ, ServicesGrid, Metrics)
-  const isListBlock = ['FAQ', 'SERVICESGRID', 'METRICS'].includes(componentType.toUpperCase());
+  const keyRegex = /^[a-z][a-zA-Z0-9]*$/;
 
-  // StudioCards: mixed — first rows are key-value config, then item rows (Title|Desc|Image|Link)
-  if (componentType.toUpperCase() === 'STUDIOCARDS') {
-    const items: any[] = [];
-    // Rows 1-4: config keys (sectionTitle, sectionSubtitle, sectionBody, ctaText+ctaUrl)
-    for (let r = 1; r <= 4 && r < rows.length; r++) {
-      const cells = rows[r].tableCells || [];
-      if (cells.length >= 2) {
-        const k1 = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const v1 = parseCellContent(cells[1], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        if (k1) data[k1] = v1;
-        // Row 4 has ctaText + ctaUrl in cols 0-1 and 2-3
-        if (cells.length >= 4) {
-          const k2 = parseCellContent(cells[2], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-          const v2 = parseCellContent(cells[3], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-          if (k2) data[k2] = v2;
-        }
+  for (let r = 1; r < rows.length; r++) {
+    const cells = rows[r].tableCells || [];
+    if (cells.length === 0) continue;
+
+    // A. Detect 2-column key-value row
+    if (cells.length === 2) {
+      const k = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
+      const v = resolveCellValue(parseCellContent(cells[1], inlineObjects));
+      if (keyRegex.test(k)) {
+        properties[k] = v;
+        continue;
       }
     }
-    // Rows 5+: item rows (Title | Description | Image URL | Link)
-    for (let r = 5; r < rows.length; r++) {
-      const cells = rows[r].tableCells || [];
-      if (cells.length >= 2) {
-        const title = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const description = parseCellContent(cells[1], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const image = cells[2] ? parseCellContent(cells[2], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '') : '';
-        const link = cells[3] ? parseCellContent(cells[3], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '') : '#';
-        if (title) items.push({ title, description, image, link });
+
+    // B. Detect 4-column side-by-side key-value row
+    if (cells.length === 4) {
+      const k1 = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
+      const v1 = resolveCellValue(parseCellContent(cells[1], inlineObjects));
+      const k2 = parseCellContent(cells[2], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
+      const v2 = resolveCellValue(parseCellContent(cells[3], inlineObjects));
+      if (keyRegex.test(k1) && keyRegex.test(k2)) {
+        properties[k1] = v1;
+        properties[k2] = v2;
+        continue;
+      }
+      if (keyRegex.test(k1) && k2 === '' && v2 === '') {
+        properties[k1] = v1;
+        continue;
       }
     }
-    data.items = items;
-    return { type: componentType, data };
+
+    // C. Otherwise, this is a list row
+    const rowValues = cells.map(cell => resolveCellValue(parseCellContent(cell, inlineObjects)));
+    rawItems.push(rowValues);
   }
 
-  // LogoScroll: row 1 = sectionTitle key-val, rows 2+ = name|logo pairs
-  if (componentType.toUpperCase() === 'LOGOSCROLL') {
-    const items: any[] = [];
-    // Row 1: sectionTitle
-    if (rows[1]) {
-      const cells = rows[1].tableCells || [];
-      if (cells.length >= 2) {
-        const key = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const val = parseCellContent(cells[1], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        if (key) data[key] = val;
-      }
-    }
-    // Rows 2+: name | logo SVG URL
-    for (let r = 2; r < rows.length; r++) {
-      const cells = rows[r].tableCells || [];
-      if (cells.length >= 2) {
-        const name = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const logo = parseCellContent(cells[1], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        if (name && logo) items.push({ name, logo });
-      }
-    }
-    data.items = items;
-    return { type: componentType, data };
-  }
+  const data: Record<string, any> = { ...properties };
 
-  if (isListBlock) {
-    const items: any[] = [];
-    // Row 1 lists column headers. Row 2+ are the actual items
-    const headerRowCells = rows[1]?.tableCells || [];
-    const keys = headerRowCells.map(c => parseCellContent(c, inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '').toLowerCase());
+  // If list rows were collected:
+  if (rawItems.length > 0) {
+    const items: Record<string, string>[] = [];
+    
+    // First list row defines the column header keys (clean/lowercase them)
+    const rawKeys = rawItems[0];
+    const keys = rawKeys.map(k => k.replace(/<\/?[^>]+(>|$)/g, '').trim().toLowerCase());
 
-    for (let r = 2; r < rows.length; r++) {
-      const cells = rows[r].tableCells || [];
-      const item: Record<string, any> = {};
-      
-      for (let c = 0; c < cells.length; c++) {
+    // Remaining list rows are item values
+    for (let r = 1; r < rawItems.length; r++) {
+      const row = rawItems[r];
+      const item: Record<string, string> = {};
+      for (let c = 0; c < row.length; c++) {
         const key = keys[c] || `field${c}`;
-        const val = parseCellContent(cells[c], inlineObjects).trim();
-        item[key] = val;
+        item[key] = row[c];
       }
-      
-      // Only push if the first item field contains content
+      // Check if item contains any non-empty content
       if (Object.values(item).some(v => v)) {
         items.push(item);
       }
     }
-    
     data.items = items;
-  } else {
-    // For standard Key-Value blocks (like Hero, TwoColumn)
-    for (let r = 1; r < rows.length; r++) {
-      const cells = rows[r].tableCells || [];
-      if (cells.length >= 2) {
-        const key = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
-        const val = parseCellContent(cells[1], inlineObjects).trim();
-        
-        // Handle background images inserted as inline image elements
-        if (key === 'backgroundImage' || key === 'image') {
-          // If the cell contains an image element, parseCellContent returns `<img src="..."/>`
-          const imgMatch = val.match(/src="([^"]+)"/);
-          if (imgMatch) {
-            data[key] = imgMatch[1];
-            continue;
-          }
-        }
-        
-        if (key) data[key] = val;
-      }
-    }
   }
 
   return { type: componentType, data };

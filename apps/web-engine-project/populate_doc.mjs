@@ -32,7 +32,7 @@ const tablesData = [
     rows: 8,
     cols: 2,
     content: [
-      ['COMPONENT: Hero', ''],
+      ['COMPONENT: hero', ''],
       ['tagline', 'OFFICIAL FIFA WORLD CUP 2026™ SUPPORTER'],
       ['title', "Engineering for the World's Biggest Stage"],
       ['description', 'From connected fan ecosystems to real-time systems, Globant helps FIFA operate flawlessly under global demand.'],
@@ -48,7 +48,7 @@ const tablesData = [
     rows: 8,
     cols: 2,
     content: [
-      ['COMPONENT: TwoColumn', ''],
+      ['COMPONENT: two-column', ''],
       ['theme', 'light'],
       ['eyebrow', 'AI-NATIVE DELIVERY'],
       ['title', 'Meet Globant AI Pods'],
@@ -61,14 +61,15 @@ const tablesData = [
 
   // ── 4. StudioCards — AI Studios ──────────────────────────────────────
   {
-    rows: 12,
+    rows: 13,
     cols: 4,
     content: [
-      ['COMPONENT: StudioCards', '', '', ''],
+      ['COMPONENT: studio-cards', '', '', ''],
       ['sectionTitle', 'AI Studios', '', ''],
       ['sectionSubtitle', 'Every industry re-imagined with the power of AI.', '', ''],
       ['sectionBody', 'End to end process re-build with AI at the core, bringing efficiency and quality outcomes faster than ever.', '', ''],
       ['ctaText', 'Find your industry', 'ctaUrl', '/ai-studios'],
+      ['Title', 'Description', 'Image', 'Link'],
       // Items: Title | Description | Image | Link
       ['Financial Services', 'We reimagine how financial services operate in the age of intelligent agents.', 'https://statics.globant.com/production/public/2026-03/financial_services.jpg', '/studio/financial-services'],
       ['Sports', 'We leverage AI, data, and technology to increase fan engagement, reach, and monetization opportunities.', 'https://statics.globant.com/production/public/2026-02/Sports_0.jpg', '/studio/sports'],
@@ -82,11 +83,12 @@ const tablesData = [
 
   // ── 5. LogoScroll — Client logos ─────────────────────────────────────
   {
-    rows: 17,
+    rows: 18,
     cols: 2,
     content: [
-      ['COMPONENT: LogoScroll', ''],
+      ['COMPONENT: logo-scroll', ''],
       ['sectionTitle', "Over two decades powering the world's leading businesses"],
+      ['Name', 'Logo'],
       ["L'Oreal",        'https://statics.globant.com/production/public/2024-09/Loreal.svg'],
       ['EA',             'https://statics.globant.com/production/public/2024-09/EA.svg'],
       ['Santander',      'https://statics.globant.com/production/public/2024-09/Santander.svg'],

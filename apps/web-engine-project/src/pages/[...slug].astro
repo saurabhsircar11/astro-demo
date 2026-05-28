@@ -41,6 +41,53 @@ function generateSrcset(url: string, widths: number[]): string {
     .join(', ');
 }
 
+// Detect if a string is a whitelisted image URL
+function isImageUrl(key: string, value: any): boolean {
+  if (typeof value !== 'string') return false;
+  const val = value.trim();
+  if (!val.startsWith('http://') && !val.startsWith('https://') && !val.startsWith('/')) {
+    return false;
+  }
+  const hasImageExt = /\.(jpg|jpeg|png|webp|svg|gif)(\?.*)?$/i.test(val);
+  const isImageKey = /image|logo|background|avatar/i.test(key);
+  return hasImageExt || isImageKey;
+}
+
+function getOptimizationConfig(key: string) {
+  if (/background/i.test(key)) {
+    return { defaultWidth: 1400, widths: [480, 800, 1200, 1600, 2000] };
+  }
+  if (/logo/i.test(key)) {
+    return { defaultWidth: 200, widths: [100, 200, 300] };
+  }
+  return { defaultWidth: 800, widths: [400, 600, 800, 1200] };
+}
+
+function optimizeImagesInObject(obj: any): any {
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => optimizeImagesInObject(item));
+  }
+
+  const result: any = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (isImageUrl(key, value)) {
+      const config = getOptimizationConfig(key);
+      const originalUrl = value as string;
+      result[key] = optimizeImageUrl(originalUrl, config.defaultWidth);
+      result[`${key}Srcset`] = generateSrcset(originalUrl, config.widths);
+    } else if (typeof value === 'object' && value !== null) {
+      result[key] = optimizeImagesInObject(value);
+    } else {
+      result[key] = value;
+    }
+  }
+  return result;
+}
+
 // 1. Fetch Page Content AST (Stale-While-Revalidate Edge Cache)
 const pageContent = await getPageAST(slug || '');
 const { metadata, blocks } = pageContent;
@@ -49,9 +96,32 @@ const { metadata, blocks } = pageContent;
 const firstBlock = blocks?.[0];
 let lcpImageUrl = '';
 let lcpImageSrcset = '';
-if (firstBlock && firstBlock.type.toUpperCase() === 'HERO' && firstBlock.data?.backgroundImage) {
-  lcpImageUrl = optimizeImageUrl(firstBlock.data.backgroundImage, 1400);
-  lcpImageSrcset = generateSrcset(firstBlock.data.backgroundImage, [480, 800, 1200, 1600, 2000]);
+if (firstBlock && firstBlock.data) {
+  const findFirstImage = (obj: any): { url: string; key: string } | null => {
+    if (!obj || typeof obj !== 'object') return null;
+    if (Array.isArray(obj)) {
+      for (const item of obj) {
+        const found = findFirstImage(item);
+        if (found) return found;
+      }
+    } else {
+      for (const [key, value] of Object.entries(obj)) {
+        if (isImageUrl(key, value)) {
+          return { url: value as string, key };
+        }
+        const found = findFirstImage(value);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const lcpImg = findFirstImage(firstBlock.data);
+  if (lcpImg) {
+    const config = getOptimizationConfig(lcpImg.key);
+    lcpImageUrl = optimizeImageUrl(lcpImg.url, config.defaultWidth);
+    lcpImageSrcset = generateSrcset(lcpImg.url, config.widths);
+  }
 }
 
 // 2. State storage for request-time dynamic composition
@@ -73,26 +143,11 @@ try {
 // 3. Loop through blocks and stitch HTML, CSS, and JS components
 for (const block of blocks) {
   const { type } = block;
-  const data = { ...block.data };
+  const data = optimizeImagesInObject(block.data || {});
 
   try {
     // A. Fetch HTML layout from Edge CDN
     const htmlTemplate = await fetchAsset(`${type}.html`, branch);
-    
-    // Optimize block images dynamically at request-time
-    if (type.toUpperCase() === 'HERO' && data.backgroundImage) {
-      data.backgroundImageSrcset = generateSrcset(data.backgroundImage, [480, 800, 1200, 1600, 2000]);
-      data.backgroundImage = optimizeImageUrl(data.backgroundImage, 1400);
-    } else if (type.toUpperCase() === 'TWOCOLUMN' && data.image) {
-      data.imageSrcset = generateSrcset(data.image, [400, 600, 800, 1200]);
-      data.image = optimizeImageUrl(data.image, 800);
-    } else if (type.toUpperCase() === 'STUDIOCARDS' && Array.isArray(data.items)) {
-      data.items = data.items.map((item: any) => ({
-        ...item,
-        imageSrcset: generateSrcset(item.image, [300, 450, 600, 900]),
-        image: optimizeImageUrl(item.image, 450)
-      }));
-    }
 
     // B. Interpolate variables and append to page body
     const blockHtml = renderTemplate(htmlTemplate, data);

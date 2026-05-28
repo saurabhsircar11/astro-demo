@@ -24,7 +24,7 @@ const tablesData = [
     rows: 8,
     cols: 2,
     content: [
-      ['COMPONENT: Hero', ''],
+      ['COMPONENT: hero', ''],
       ['tagline', 'Dare to Invent the Future'],
       ['title', 'We Dare to Reinvent the World'],
       ['description', 'We are a digitally native company where innovation, design, and engineering meet scale to help organizations transform and thrive.'],
@@ -39,7 +39,7 @@ const tablesData = [
     rows: 6,
     cols: 3,
     content: [
-      ['COMPONENT: ServicesGrid', '', ''],
+      ['COMPONENT: services-grid', '', ''],
       ['Title', 'Description', 'Link'],
       ['AI Studio', 'Generative AI pipelines and neural solutions to transform your operations and products.', '#ai-studio'],
       ['Digital Experience', 'Creating stunning, high-performance customer portals and mobile platforms.', '#digital-studio'],
@@ -52,7 +52,7 @@ const tablesData = [
     rows: 5,
     cols: 2,
     content: [
-      ['COMPONENT: Metrics', ''],
+      ['COMPONENT: metrics', ''],
       ['Value', 'Label'],
       ['30,000+', 'Globanteers driving digital transformation globally'],
       ['30+', 'Global delivery centers and studios'],
@@ -64,7 +64,7 @@ const tablesData = [
     rows: 5,
     cols: 2,
     content: [
-      ['COMPONENT: FAQ', ''],
+      ['COMPONENT: faq', ''],
       ['Question', 'Answer'],
       ['What is a Globant Studio?', 'Our Studios are deep business verticals combining target domain knowledge (like Healthcare, Finance, or Media) with cutting-edge tech capabilities.'],
       ['How does Globant leverage AI?', 'We integrate AI across all Studios, developing custom LLMs, model pipelines, and AI-assisted coding frameworks to optimize engineering outputs.'],

@@ -23,7 +23,7 @@ const GLOBANT_MOCK_PAYLOAD: PageContent = {
   },
   blocks: [
     {
-      type: "Hero",
+      type: "hero",
       data: {
         tagline: "OFFICIAL FIFA WORLD CUP 2026™ SUPPORTER",
         title: "Engineering for the World's Biggest Stage",

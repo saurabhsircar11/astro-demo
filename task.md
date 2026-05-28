@@ -49,6 +49,15 @@
   - [x] Update URL helpers in `[...slug].astro` to map image endpoints to port `3002`
   - [x] Verify execution by building and running the containers and testing image/HTML output
 
+- [x] **Phase 9: Zero-Config Extensible Page Composition Refactoring**
+  - [x] Rename component assets inside `core-assets-pipeline/src/` to lowercase kebab-case naming standard (e.g. `studio-cards.html`)
+  - [x] Implement dynamic list table column mapping in `docParser.ts` (using row headers for list component keys)
+  - [x] Add cell image URL extraction in `resolveCellValue` for inline pasted images in Google Docs
+  - [x] Remove component-specific checks from `[...slug].astro` rendering loop
+  - [x] Implement recursive schema-free image optimization scanner and dynamic LCP image preloading
+  - [x] Update Google Doc populator script (`populate_doc.mjs`) to write kebab-case table names and list headers
+  - [x] Repopulate active Google Doc and verify flawless composition of `/globant-demo` under 30ms response times
+
 - [x] **Phase 8: Critical Rendering Path (CRP) & Font Loading Optimizations**
   - [x] Remove render-blocking `@import` from `core-assets-pipeline/src/index.css`
   - [x] Implement asynchronous, non-blocking font loading in `[...slug].astro`
