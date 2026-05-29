@@ -62,5 +62,23 @@
   - [x] Remove render-blocking `@import` from `core-assets-pipeline/src/index.css`
   - [x] Implement asynchronous, non-blocking font loading in `[...slug].astro`
   - [x] Add preconnect resource hints for `IMAGE_OPTIMIZER_URL`
-  - [ ] Verify FCP and LCP improvements via Lighthouse auditing
+  - [x] **Phase 10: Adobe Milo-Style Positional Authoring**
+  - [x] Refactor `docParser.ts` to map cell values strictly to `cell_r_c` variables
+  - [x] Simplify `hero.html` and `two-column.html` to consume full HTML blocks directly
+  - [x] Create cell-to-item parser (`parseCellToItem`) resolving images, titles, descriptions, and links from single cell contents
+  - [x] Configure list components (`studio-cards`, `logo-scroll`) to build clean `items` from grid cells under positional layout
+  - [x] Create fallback for raw image URLs and SVG logo extraction to bypass Google Doc inline SVG constraints
+  - [x] Refactor and update `populate_new_authoring.mjs` script to write visual grids with bolding and inline image attachments
+  - [x] Verify rendering on `localhost:3001/globant-demo-new-authoring` returns 200 OK and correctly formatted markup
+
+- [x] **Phase 11: Decoupled Native Headings and FAQ Integration**
+  - [x] Support native `updateParagraphStyle` requests inside `populate_new_authoring.mjs`
+  - [x] Configure positional `faq` table definition inside populator content
+  - [x] Update `faq.css` to target `.faq__header > h2` and `.faq__header > p`
+  - [x] Update `hero.css` to target `.hero__content > p:first-of-type` and `.hero__content > p:nth-of-type(2)`
+  - [x] Rebuild Astro engine and verify visual rendering on `localhost:3001/globant-demo-new-authoring`
+  - [x] Upgrade `renderer.ts` to strip Handlebars comments and convert Logo Scroll comment to clean HTML comment
+  - [x] Fix nested h2 elements in logo-scroll.html by converting the outer h2 tag to a div class="logoscroll__title"
+
+
 

@@ -64,7 +64,22 @@ function getOptimizationConfig(key: string) {
 }
 
 function optimizeImagesInObject(obj: any): any {
-  if (obj === null || typeof obj !== 'object') {
+  if (obj === null) return obj;
+
+  if (typeof obj === 'string') {
+    return obj.replace(/<img([^>]*?)src=["'](https?:\/\/[^"']+)["']/gi, (match, beforeSrc, url) => {
+      const config = getOptimizationConfig('image');
+      const optimizedUrl = optimizeImageUrl(url, config.defaultWidth);
+      const srcset = generateSrcset(url, config.widths);
+      let replacement = `<img${beforeSrc}src="${optimizedUrl}"`;
+      if (srcset) {
+        replacement += ` srcset="${srcset}" sizes="100vw"`;
+      }
+      return replacement;
+    });
+  }
+
+  if (typeof obj !== 'object') {
     return obj;
   }
 
@@ -79,10 +94,8 @@ function optimizeImagesInObject(obj: any): any {
       const originalUrl = value as string;
       result[key] = optimizeImageUrl(originalUrl, config.defaultWidth);
       result[`${key}Srcset`] = generateSrcset(originalUrl, config.widths);
-    } else if (typeof value === 'object' && value !== null) {
-      result[key] = optimizeImagesInObject(value);
     } else {
-      result[key] = value;
+      result[key] = optimizeImagesInObject(value);
     }
   }
   return result;

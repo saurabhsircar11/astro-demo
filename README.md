@@ -106,6 +106,61 @@ Query the server and output response speed metrics:
 node scratch/test_server.mjs
 ```
 
+### 5. Developing New Blocks & AST Debugging
+When designing new blocks or components, you need to understand what data fields the Google Doc parser returns so you can build dynamic templates around them.
+
+#### A. Run the AST CLI Debugger
+You can query and output the live AST JSON for any page slug or Google Doc ID directly to your terminal.
+
+From the root of the workspace, run:
+```bash
+npm --prefix apps/web-engine-project run debug-doc <slug-or-doc-id>
+```
+
+For example, to view the parsed JSON of the demo document:
+```bash
+npm --prefix apps/web-engine-project run debug-doc globant-demo-new-authoring
+```
+
+#### B. Understanding the Parser Output Structure
+The debugger fetches and resolves the document into a `PageContent` JSON object:
+* **`metadata`**: General page headers (like `title`, `description`, `theme`) parsed from a table labeled `METADATA`.
+* **`blocks`**: An array of component objects:
+  * **`type`**: The lowercase, kebab-case name of the component (e.g. `studio-cards`, `logo-scroll`, `faq`).
+  * **`data`**:
+    * **`cell_r_c`**: Positional cells containing raw HTML content (e.g., `cell_0_0`, `cell_1_0`). Use this for direct content placement.
+    * **`rows`**: An array of rows, where each row contains an array of `cells` with raw HTML contents.
+    * **`variants` / `variantList`**: Styling/variant class names specified in parentheses in the header cell.
+    * **`items`**: For list-based grid/accordion blocks (like `studio-cards`, `logo-scroll`, `faq`), the cells below the title header are automatically parsed into structured objects containing:
+      * `image` / `logo` (first `<img>` src)
+      * `title` / `name` / `value` / `question` (heading or bold text)
+      * `description` / `label` / `answer` (remaining text content)
+      * `link` (first anchor `<a>` href)
+
+#### C. Designing a New Block
+1. **Create the Template**:
+   Add a Handlebars template named `<block-name>.html` (e.g. `my-block.html`) under [core-assets-pipeline/src/](file:///Users/saurabh.sircar/Globant/astro-demo/core-assets-pipeline/src/). You can loop through `data.items` or place positional cells directly:
+   ```html
+   <section class="my-block {{data.variants}}">
+     <div class="my-block__header">
+       {{{data.cell_0_0}}} <!-- Unescaped HTML for title & description -->
+     </div>
+     <div class="my-block__grid">
+       {{#each data.items}}
+         <div class="my-block__item">
+           {{#if image}}<img src="{{image}}" alt="{{title}}">{{/if}}
+           <h3>{{title}}</h3>
+           <p>{{description}}</p>
+         </div>
+       {{/each}}
+     </div>
+   </section>
+   ```
+2. **Add Styles**:
+   Create `<block-name>.css` under [core-assets-pipeline/src/css/](file:///Users/saurabh.sircar/Globant/astro-demo/core-assets-pipeline/src/css/). Style headings/paragraphs using nested HTML tag selectors to easily inherit styling from parsed cells.
+3. **Build and Preview**:
+   Rebuild the assets/container to view your changes.
+
 ---
 
 ## Documentation Index
