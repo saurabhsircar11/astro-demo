@@ -1,7 +1,10 @@
 <section class="faq-section">
   <div class="container faq__container">
-    {{#if sectionTitle}}<h2 class="faq-title">{{sectionTitle}}</h2>{{/if}}
-    {{#if sectionSubtitle}}<p class="faq-subtitle">{{sectionSubtitle}}</p>{{/if}}
+    {{#if cell_0_0}}
+    <div class="faq__header">
+      {{cell_0_0}}
+    </div>
+    {{/if}}
     
     <div class="faq-accordion" data-faq-group>
       {{#each items}}

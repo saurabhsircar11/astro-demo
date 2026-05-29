@@ -119,3 +119,29 @@ We completed a performance audit to eliminate render-blocking network requests a
 - **Asynchronous Font Loading**: Implemented an async stylesheet loader in `[...slug].astro` head using the `<link rel="preload" as="style" onload="...">` pattern, preventing the external Google Fonts styling from blocking initial paint metrics (FCP/LCP).
 - **Preconnect Link Insertion**: Added a critical `<link rel="preconnect">` hint targeting the dynamic `IMAGE_OPTIMIZER_URL` (`http://localhost:3002` on client browser) to trigger early DNS resolutions and TCP connections for optimized images.
 - **Cache Pre-Warming**: Cache warming triggers successfully on container boot, ensuring subsequent requests hit cached WebP files immediately without processing overhead.
+
+---
+
+## Positional Milo-Style Authoring Upgrade & Verification
+
+We have upgraded the entire document composition to match Adobe Milo's grid-based positional authoring style, completely replacing the legacy key-value tables for all block types.
+
+### 1. Key Accomplishments
+- **Milo Grid Mapping**: Refactored `docParser.ts` to map cell values strictly to `cell_r_c` variables, allowing authors to write titles, descriptions, and buttons inside a single table cell (e.g. `cell_0_0`).
+- **Decoupled Formatting & Native Headings**: Reverted block-specific post-processing formatting helpers (like `formatHeroContent`, `formatTwoColumnContent`) from the core parser to prevent tight coupling. Instead, we write native Google Doc styles (e.g. `HEADING_1` for Hero title, `HEADING_2` for Two-Column/Studio/FAQ titles) via the Docs API, which the parser outputs as standard semantic tags (`<h1>`, `<h2>`, etc.).
+- **CSS Child Selector Styling**: Enhanced stylesheets to target semantic headings and paragraph layouts dynamically:
+  - In `hero.css`: Map `.hero__content > p:first-of-type` to the tagline style, and `.hero__content > p:nth-of-type(2)` to description.
+  - In `faq.css`: Map `.faq__header > h2` to the FAQ title, and `.faq__header > p` to the FAQ subtitle.
+- **FAQ Block Integration**: Successfully defined the positional `faq` table definition inside the populator script (`populate_new_authoring.mjs`), mapping cell indices and applying bold styles. It compiles to clean accordion elements with dynamic JSON-LD schema generation in the page `<head>`.
+- **Dynamic List Mapping**: Configured list-based components (`studio-cards`, `logo-scroll`, `services-grid`, `metrics`, `faq`) to automatically parse card items from grid cells, extracting titles (from bold text or first line), descriptions, image URLs, and button links natively.
+- **Clean Root-Relative Links**: Configured the parser to clean up triple-slashed prefixes (`http:///` or `https:///`) added by Google Docs for relative hyperlinks, converting them back to clean root-relative paths like `/ai-pods`.
+- **Handlebars Comment Stripping Support**: Upgraded the dynamic template compiler in `renderer.ts` to automatically scan and strip Handlebars comments (`{{!-- ... --}}` and `{{! ... }}`) to prevent layout leakages and ensure visual parity.
+- **AST Debugger CLI Utility**: Created a dedicated developer tool [debug-doc.ts](file:///Users/saurabh.sircar/Globant/astro-demo/apps/web-engine-project/debug-doc.ts) and added `npm run debug-doc <slug-or-doc-id>` command to `package.json`. Developers can run it to dump the live, parsed blocks AST JSON of any document instantly from the console.
+
+### 2. Rendering Verification
+A `curl` request to the `/globant-demo-new-authoring` route verifies that all blocks are composed perfectly:
+- **Hero & Two-Column**: The tagline pill renders with its background and borders, the headline renders with correct large font sizing and weight, the description text matches secondary styles, and the background/main column images render as optimized responsive elements.
+- **Studio Cards**: The header renders the section title and description correctly, and the cards render beautifully as a 4-column responsive grid.
+- **FAQ Block accordion**: The FAQ section renders a beautiful accordion grid. Each question is wrapped inside `<summary><span>...</span>` and details are mapped correctly, matching the interactive design of the platform.
+- **Logo Scroll**: The client logo marquee scroll renders greyscale SVG images and matches logo names dynamically. Handlebars comments are stripped cleanly, leaving only standard hidden HTML comments in the DOM. Fixed a nested `<h2>` heading element layout bug by wrapping the cell template contents in a `div` element rather than an outer `h2`, restoring correct stylesheet specificity inheritance.
+

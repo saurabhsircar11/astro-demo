@@ -8,7 +8,9 @@
   background-color: #ffffff;
 }
 
-.studios__title {
+.studios__title,
+.studios__header h1,
+.studios__header h2 {
   font-family: var(--font-title);
   font-size: clamp(2.8rem, 5vw, 4rem);
   font-weight: 900;
@@ -17,7 +19,8 @@
   margin-bottom: 0.8rem;
 }
 
-.studios__subtitle {
+.studios__subtitle,
+.studios__header h3 {
   font-family: var(--font-title);
   font-size: clamp(1.6rem, 2.5vw, 2rem);
   font-weight: 700;
@@ -25,12 +28,18 @@
   margin-bottom: 0.8rem;
 }
 
-.studios__body {
+.studios__body,
+.studios__header p {
   font-size: 1.6rem;
   color: #444444;
   line-height: 1.65;
   max-width: 780px;
   margin-bottom: 4rem;
+}
+
+.studios__header .btn {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
 }
 
 /* Grid — 4 columns on desktop (like globant.com), wraps down */

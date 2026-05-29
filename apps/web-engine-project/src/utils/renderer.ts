@@ -4,6 +4,10 @@
 export function renderTemplate(template: string, data: Record<string, any>): string {
   let rendered = template;
 
+  // Strip Handlebars-style comments: {{!-- comment --}} and {{! comment }}
+  rendered = rendered.replace(/\{\{!--[\s\S]*?--\}\}/g, '')
+                     .replace(/\{\{![\s\S]*?\}\}/g, '');
+
   // 1. Parse Loops: {{#each listKey}} ... {{/each}}
   rendered = rendered.replace(/\{\{#each (\w+)\}\}([\s\S]*?)\{\{\/each\}\}/g, (match, listKey, loopTemplate) => {
     const list = data[listKey];
