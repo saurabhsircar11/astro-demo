@@ -18,6 +18,17 @@
   letter-spacing: -0.02em;
   margin-bottom: 4rem;
 }
+.logoscroll__title p,
+.logoscroll__title h1,
+.logoscroll__title h2,
+.logoscroll__title h3 {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  text-align: inherit;
+  margin: 0;
+}
 
 /* Track wrapper — clips overflow for marquee effect */
 .logoscroll__track-wrap {

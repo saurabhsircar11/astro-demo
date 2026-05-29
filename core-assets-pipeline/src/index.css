@@ -121,12 +121,14 @@ a:focus-visible, button:focus-visible {
   transform: translateY(-2px);
 }
 
-/* Outline: white border, white text */
+/* Secondary/Outline: white border, white text */
+.btn--secondary,
 .btn--outline {
   background: transparent;
   color: var(--color-text-primary);
   border-color: rgba(255, 255, 255, 0.4);
 }
+.btn--secondary:hover,
 .btn--outline:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);

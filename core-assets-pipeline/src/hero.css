@@ -44,6 +44,22 @@
   pointer-events: none;
 }
 
+.hero__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero__media img,
+.hero__media video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
 .hero__container {
   position: relative;
   z-index: 2;
@@ -62,7 +78,8 @@
 }
 
 /* FIFA badge / event pill — the little "OFFICIAL ... SUPPORTER" badge shown top-left */
-.hero__tagline {
+.hero__tagline,
+.hero__content > p:first-of-type {
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
@@ -99,7 +116,10 @@
 }
 
 /* The main headline — huge, white, heavy weight, no gradient */
-.hero__title {
+.hero__title,
+.hero__content > h1,
+.hero__content > h2,
+.hero__content > h3 {
   font-family: var(--font-title);
   font-size: clamp(3.2rem, 6.5vw, 6.0rem);
   font-weight: 900;
@@ -110,13 +130,17 @@
 }
 
 /* Highlighted words in lime-green (like "World's" in FIFA page) */
-.hero__title strong, .hero__title b {
+.hero__title strong, .hero__title b,
+.hero__content > h1 strong, .hero__content > h1 b,
+.hero__content > h2 strong, .hero__content > h2 b,
+.hero__content > h3 strong, .hero__content > h3 b {
   color: var(--color-primary);
   font-weight: 900;
 }
 
 /* Subtitle — slightly muted grey, matches globant.com secondary text */
-.hero__description {
+.hero__description,
+.hero__content > p:nth-of-type(2) {
   font-size: clamp(1.5rem, 2.2vw, 1.8rem);
   font-weight: 400;
   color: rgba(255, 255, 255, 0.75);
@@ -125,10 +149,20 @@
   max-width: 580px;
 }
 
-.hero__description em {
+.hero__description em,
+.hero__content > p em {
   font-style: normal;
   color: #ffffff;
   font-weight: 500;
+}
+
+.hero__content > img {
+  display: inline-block;
+  margin-right: 1.2rem;
+  margin-bottom: 2.4rem;
+  vertical-align: middle;
+  height: 48px;
+  width: auto;
 }
 
 /* CTA row */
@@ -140,30 +174,30 @@
 }
 
 /* ── Alignment modifiers ───────────────── */
-.hero--center {
+.hero.center {
   text-align: center;
 }
-.hero--center .hero__content {
+.hero.center .hero__content {
   margin-inline: auto;
 }
-.hero--center .hero__tagline,
-.hero--center .hero__actions {
+.hero.center .hero__tagline,
+.hero.center .hero__actions {
   justify-content: center;
 }
-.hero--center .hero__description {
+.hero.center .hero__description {
   margin-inline: auto;
 }
 
-.hero--right {
+.hero.right {
   text-align: right;
 }
-.hero--right .hero__content { margin-left: auto; }
-.hero--right .hero__tagline,
-.hero--right .hero__actions { justify-content: flex-end; }
-.hero--right .hero__description { margin-left: auto; }
+.hero.right .hero__content { margin-left: auto; }
+.hero.right .hero__tagline,
+.hero.right .hero__actions { justify-content: flex-end; }
+.hero.right .hero__description { margin-left: auto; }
 
 /* ── Theme: no background image (dark flat) ───────────── */
-.hero--theme-dark {
+.hero.dark {
   background-color: #000;
 }
 

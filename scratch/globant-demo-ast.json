@@ -1,0 +1,564 @@
+{
+  "metadata": {
+    "title": "Globant AI Powerhouse | Meet AI Pods by Globant Enterprise AI",
+    "description": "We help organizations drive AI business transformation. Our AI enterprise solutions blend AI-powered engineering, innovation, and cutting-edge design.",
+    "robots": "index, follow",
+    "theme": "dark"
+  },
+  "blocks": [
+    {
+      "type": "hero",
+      "data": {
+        "cell_0_0": "tagline",
+        "cell_0_1": "OFFICIAL FIFA WORLD CUP 2026™ SUPPORTER",
+        "tagline": "OFFICIAL FIFA WORLD CUP 2026™ SUPPORTER",
+        "cell_1_0": "title",
+        "cell_1_1": "Engineering for the World&#039;s Biggest Stage",
+        "title": "Engineering for the World&#039;s Biggest Stage",
+        "cell_2_0": "description",
+        "cell_2_1": "From connected fan ecosystems to real-time systems, Globant helps FIFA operate flawlessly under global demand.",
+        "description": "From connected fan ecosystems to real-time systems, Globant helps FIFA operate flawlessly under global demand.",
+        "cell_3_0": "alignment",
+        "cell_3_1": "left",
+        "alignment": "left",
+        "cell_4_0": "backgroundImage",
+        "cell_4_1": "https://statics.globant.com/production/public/2026-02/bg-desktop-fifa.jpg",
+        "backgroundImage": "https://statics.globant.com/production/public/2026-02/bg-desktop-fifa.jpg",
+        "cell_5_0": "ctaText",
+        "cell_5_1": "Learn how",
+        "ctaText": "Learn how",
+        "cell_6_0": "ctaUrl",
+        "cell_6_1": "https://www.globant.com/news/globant-fifa-renewed-partnership-2026-2027",
+        "ctaUrl": "https://www.globant.com/news/globant-fifa-renewed-partnership-2026-2027",
+        "rows": [
+          {
+            "cells": [
+              "tagline",
+              "OFFICIAL FIFA WORLD CUP 2026™ SUPPORTER"
+            ]
+          },
+          {
+            "cells": [
+              "title",
+              "Engineering for the World&#039;s Biggest Stage"
+            ]
+          },
+          {
+            "cells": [
+              "description",
+              "From connected fan ecosystems to real-time systems, Globant helps FIFA operate flawlessly under global demand."
+            ]
+          },
+          {
+            "cells": [
+              "alignment",
+              "left"
+            ]
+          },
+          {
+            "cells": [
+              "backgroundImage",
+              "https://statics.globant.com/production/public/2026-02/bg-desktop-fifa.jpg"
+            ]
+          },
+          {
+            "cells": [
+              "ctaText",
+              "Learn how"
+            ]
+          },
+          {
+            "cells": [
+              "ctaUrl",
+              "https://www.globant.com/news/globant-fifa-renewed-partnership-2026-2027"
+            ]
+          }
+        ],
+        "variants": "",
+        "variantList": []
+      }
+    },
+    {
+      "type": "two-column",
+      "data": {
+        "cell_0_0": "theme",
+        "cell_0_1": "light",
+        "theme": "light",
+        "cell_1_0": "eyebrow",
+        "cell_1_1": "AI-NATIVE DELIVERY",
+        "eyebrow": "AI-NATIVE DELIVERY",
+        "cell_2_0": "title",
+        "cell_2_1": "Meet Globant AI Pods",
+        "title": "Meet Globant AI Pods",
+        "cell_3_0": "description",
+        "cell_3_1": "Forget technology services as you know them. AI-native delivery, built for output, not hours. Think: autonomous agents executing end-to-end, domain experts validating every result, and a system that learns with every interaction, turning AI into consistent, enterprise grade delivery.",
+        "description": "Forget technology services as you know them. AI-native delivery, built for output, not hours. Think: autonomous agents executing end-to-end, domain experts validating every result, and a system that learns with every interaction, turning AI into consistent, enterprise grade delivery.",
+        "cell_4_0": "ctaText",
+        "cell_4_1": "Subscribe to the future",
+        "ctaText": "Subscribe to the future",
+        "cell_5_0": "ctaUrl",
+        "cell_5_1": "/ai-pods",
+        "ctaUrl": "/ai-pods",
+        "cell_6_0": "image",
+        "cell_6_1": "https://statics.globant.com/production/public/2025-10/ai_pods_test_automation.png",
+        "image": "https://statics.globant.com/production/public/2025-10/ai_pods_test_automation.png",
+        "rows": [
+          {
+            "cells": [
+              "theme",
+              "light"
+            ]
+          },
+          {
+            "cells": [
+              "eyebrow",
+              "AI-NATIVE DELIVERY"
+            ]
+          },
+          {
+            "cells": [
+              "title",
+              "Meet Globant AI Pods"
+            ]
+          },
+          {
+            "cells": [
+              "description",
+              "Forget technology services as you know them. AI-native delivery, built for output, not hours. Think: autonomous agents executing end-to-end, domain experts validating every result, and a system that learns with every interaction, turning AI into consistent, enterprise grade delivery."
+            ]
+          },
+          {
+            "cells": [
+              "ctaText",
+              "Subscribe to the future"
+            ]
+          },
+          {
+            "cells": [
+              "ctaUrl",
+              "/ai-pods"
+            ]
+          },
+          {
+            "cells": [
+              "image",
+              "https://statics.globant.com/production/public/2025-10/ai_pods_test_automation.png"
+            ]
+          }
+        ],
+        "variants": "",
+        "variantList": []
+      }
+    },
+    {
+      "type": "studio-cards",
+      "data": {
+        "cell_0_0": "sectionTitle",
+        "cell_0_1": "AI Studios",
+        "cell_0_2": "",
+        "cell_0_3": "",
+        "sectionTitle": "AI Studios",
+        "cell_1_0": "sectionSubtitle",
+        "cell_1_1": "Every industry re-imagined with the power of AI.",
+        "cell_1_2": "",
+        "cell_1_3": "",
+        "sectionSubtitle": "Every industry re-imagined with the power of AI.",
+        "cell_2_0": "sectionBody",
+        "cell_2_1": "End to end process re-build with AI at the core, bringing efficiency and quality outcomes faster than ever.",
+        "cell_2_2": "",
+        "cell_2_3": "",
+        "sectionBody": "End to end process re-build with AI at the core, bringing efficiency and quality outcomes faster than ever.",
+        "cell_3_0": "ctaText",
+        "cell_3_1": "Find your industry",
+        "cell_3_2": "ctaUrl",
+        "cell_3_3": "/ai-studios",
+        "ctaText": "Find your industry",
+        "ctaUrl": "/ai-studios",
+        "cell_4_0": "Title",
+        "cell_4_1": "Description",
+        "cell_4_2": "Image",
+        "cell_4_3": "Link",
+        "cell_5_0": "Financial Services",
+        "cell_5_1": "We reimagine how financial services operate in the age of intelligent agents.",
+        "cell_5_2": "https://statics.globant.com/production/public/2026-03/financial_services.jpg",
+        "cell_5_3": "/studio/financial-services",
+        "cell_6_0": "Sports",
+        "cell_6_1": "We leverage AI, data, and technology to increase fan engagement, reach, and monetization opportunities.",
+        "cell_6_2": "https://statics.globant.com/production/public/2026-02/Sports_0.jpg",
+        "cell_6_3": "/studio/sports",
+        "cell_7_0": "Healthcare &amp; Life Science",
+        "cell_7_1": "We improve the connection between technology and life sciences, combining bio-science talent with AI-driven solutions.",
+        "cell_7_2": "https://statics.globant.com/production/public/2026-02/healthcare_0.jpg",
+        "cell_7_3": "/studio/healthcare-life-sciences",
+        "cell_8_0": "Retail",
+        "cell_8_1": "We innovate through digital retail solutions with AI-driven supply chain visibility and automation.",
+        "cell_8_2": "https://statics.globant.com/production/public/2026-02/retail_0.jpg",
+        "cell_8_3": "/studio/retail",
+        "cell_9_0": "Airlines",
+        "cell_9_1": "We drive digital transformation in the airline industry by focusing on passenger experience and leveraging AI.",
+        "cell_9_2": "https://statics.globant.com/production/public/2026-02/airline.jpg",
+        "cell_9_3": "/studio/airlines",
+        "cell_10_0": "Games",
+        "cell_10_1": "We design and develop world-class games and digital platforms across multiple channels, integrating AI for enhanced gameplay.",
+        "cell_10_2": "https://statics.globant.com/production/public/2026-02/games.jpg",
+        "cell_10_3": "/studio/gaming",
+        "cell_11_0": "Energy",
+        "cell_11_1": "Energy, Mining and Multiutilities transformational services to solve hurdles, revolutionize efficiencies and power up value chains through tech &amp; AI.",
+        "cell_11_2": "https://statics.globant.com/production/public/2026-02/energy.jpg",
+        "cell_11_3": "/studio/energy",
+        "rows": [
+          {
+            "cells": [
+              "sectionTitle",
+              "AI Studios",
+              "",
+              ""
+            ]
+          },
+          {
+            "cells": [
+              "sectionSubtitle",
+              "Every industry re-imagined with the power of AI.",
+              "",
+              ""
+            ]
+          },
+          {
+            "cells": [
+              "sectionBody",
+              "End to end process re-build with AI at the core, bringing efficiency and quality outcomes faster than ever.",
+              "",
+              ""
+            ]
+          },
+          {
+            "cells": [
+              "ctaText",
+              "Find your industry",
+              "ctaUrl",
+              "/ai-studios"
+            ]
+          },
+          {
+            "cells": [
+              "Title",
+              "Description",
+              "Image",
+              "Link"
+            ]
+          },
+          {
+            "cells": [
+              "Financial Services",
+              "We reimagine how financial services operate in the age of intelligent agents.",
+              "https://statics.globant.com/production/public/2026-03/financial_services.jpg",
+              "/studio/financial-services"
+            ]
+          },
+          {
+            "cells": [
+              "Sports",
+              "We leverage AI, data, and technology to increase fan engagement, reach, and monetization opportunities.",
+              "https://statics.globant.com/production/public/2026-02/Sports_0.jpg",
+              "/studio/sports"
+            ]
+          },
+          {
+            "cells": [
+              "Healthcare &amp; Life Science",
+              "We improve the connection between technology and life sciences, combining bio-science talent with AI-driven solutions.",
+              "https://statics.globant.com/production/public/2026-02/healthcare_0.jpg",
+              "/studio/healthcare-life-sciences"
+            ]
+          },
+          {
+            "cells": [
+              "Retail",
+              "We innovate through digital retail solutions with AI-driven supply chain visibility and automation.",
+              "https://statics.globant.com/production/public/2026-02/retail_0.jpg",
+              "/studio/retail"
+            ]
+          },
+          {
+            "cells": [
+              "Airlines",
+              "We drive digital transformation in the airline industry by focusing on passenger experience and leveraging AI.",
+              "https://statics.globant.com/production/public/2026-02/airline.jpg",
+              "/studio/airlines"
+            ]
+          },
+          {
+            "cells": [
+              "Games",
+              "We design and develop world-class games and digital platforms across multiple channels, integrating AI for enhanced gameplay.",
+              "https://statics.globant.com/production/public/2026-02/games.jpg",
+              "/studio/gaming"
+            ]
+          },
+          {
+            "cells": [
+              "Energy",
+              "Energy, Mining and Multiutilities transformational services to solve hurdles, revolutionize efficiencies and power up value chains through tech &amp; AI.",
+              "https://statics.globant.com/production/public/2026-02/energy.jpg",
+              "/studio/energy"
+            ]
+          }
+        ],
+        "variants": "",
+        "variantList": [],
+        "items": [
+          {
+            "title": "Financial Services",
+            "description": "We reimagine how financial services operate in the age of intelligent agents.",
+            "image": "https://statics.globant.com/production/public/2026-03/financial_services.jpg",
+            "link": "/studio/financial-services"
+          },
+          {
+            "title": "Sports",
+            "description": "We leverage AI, data, and technology to increase fan engagement, reach, and monetization opportunities.",
+            "image": "https://statics.globant.com/production/public/2026-02/Sports_0.jpg",
+            "link": "/studio/sports"
+          },
+          {
+            "title": "Healthcare &amp; Life Science",
+            "description": "We improve the connection between technology and life sciences, combining bio-science talent with AI-driven solutions.",
+            "image": "https://statics.globant.com/production/public/2026-02/healthcare_0.jpg",
+            "link": "/studio/healthcare-life-sciences"
+          },
+          {
+            "title": "Retail",
+            "description": "We innovate through digital retail solutions with AI-driven supply chain visibility and automation.",
+            "image": "https://statics.globant.com/production/public/2026-02/retail_0.jpg",
+            "link": "/studio/retail"
+          },
+          {
+            "title": "Airlines",
+            "description": "We drive digital transformation in the airline industry by focusing on passenger experience and leveraging AI.",
+            "image": "https://statics.globant.com/production/public/2026-02/airline.jpg",
+            "link": "/studio/airlines"
+          },
+          {
+            "title": "Games",
+            "description": "We design and develop world-class games and digital platforms across multiple channels, integrating AI for enhanced gameplay.",
+            "image": "https://statics.globant.com/production/public/2026-02/games.jpg",
+            "link": "/studio/gaming"
+          },
+          {
+            "title": "Energy",
+            "description": "Energy, Mining and Multiutilities transformational services to solve hurdles, revolutionize efficiencies and power up value chains through tech &amp; AI.",
+            "image": "https://statics.globant.com/production/public/2026-02/energy.jpg",
+            "link": "/studio/energy"
+          }
+        ]
+      }
+    },
+    {
+      "type": "logo-scroll",
+      "data": {
+        "cell_0_0": "sectionTitle",
+        "cell_0_1": "Over two decades powering the world&#039;s leading businesses",
+        "sectionTitle": "Over two decades powering the world&#039;s leading businesses",
+        "cell_1_0": "Name",
+        "cell_1_1": "Logo",
+        "cell_2_0": "L&#039;Oreal",
+        "cell_2_1": "https://statics.globant.com/production/public/2024-09/Loreal.svg",
+        "cell_3_0": "EA",
+        "cell_3_1": "https://statics.globant.com/production/public/2024-09/EA.svg",
+        "cell_4_0": "Santander",
+        "cell_4_1": "https://statics.globant.com/production/public/2024-09/Santander.svg",
+        "cell_5_0": "Nissan",
+        "cell_5_1": "https://statics.globant.com/production/public/2024-09/Nissan.svg",
+        "cell_6_0": "Danone",
+        "cell_6_1": "https://statics.globant.com/production/public/2024-09/Danone.svg",
+        "cell_7_0": "Coca-Cola",
+        "cell_7_1": "https://statics.globant.com/production/public/2024-09/Coca%20Cola.svg",
+        "cell_8_0": "HSBC",
+        "cell_8_1": "https://statics.globant.com/production/public/2024-09/HSBC.svg",
+        "cell_9_0": "J&amp;J",
+        "cell_9_1": "https://statics.globant.com/production/public/2024-09/J%26J.svg",
+        "cell_10_0": "FIFA",
+        "cell_10_1": "https://statics.globant.com/production/public/2024-09/FIFA.svg",
+        "cell_11_0": "F1",
+        "cell_11_1": "https://statics.globant.com/production/public/2024-09/F1.svg",
+        "cell_12_0": "Adidas",
+        "cell_12_1": "https://statics.globant.com/production/public/2024-09/Adidas.svg",
+        "cell_13_0": "Warner Bros",
+        "cell_13_1": "https://statics.globant.com/production/public/2024-09/WB.svg",
+        "cell_14_0": "Google",
+        "cell_14_1": "https://statics.globant.com/production/public/2024-09/Google.svg",
+        "cell_15_0": "Embraer",
+        "cell_15_1": "https://statics.globant.com/production/public/2024-09/Embraer.svg",
+        "cell_16_0": "British Airways",
+        "cell_16_1": "https://statics.globant.com/production/public/2024-09/British%20Airways.svg",
+        "rows": [
+          {
+            "cells": [
+              "sectionTitle",
+              "Over two decades powering the world&#039;s leading businesses"
+            ]
+          },
+          {
+            "cells": [
+              "Name",
+              "Logo"
+            ]
+          },
+          {
+            "cells": [
+              "L&#039;Oreal",
+              "https://statics.globant.com/production/public/2024-09/Loreal.svg"
+            ]
+          },
+          {
+            "cells": [
+              "EA",
+              "https://statics.globant.com/production/public/2024-09/EA.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Santander",
+              "https://statics.globant.com/production/public/2024-09/Santander.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Nissan",
+              "https://statics.globant.com/production/public/2024-09/Nissan.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Danone",
+              "https://statics.globant.com/production/public/2024-09/Danone.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Coca-Cola",
+              "https://statics.globant.com/production/public/2024-09/Coca%20Cola.svg"
+            ]
+          },
+          {
+            "cells": [
+              "HSBC",
+              "https://statics.globant.com/production/public/2024-09/HSBC.svg"
+            ]
+          },
+          {
+            "cells": [
+              "J&amp;J",
+              "https://statics.globant.com/production/public/2024-09/J%26J.svg"
+            ]
+          },
+          {
+            "cells": [
+              "FIFA",
+              "https://statics.globant.com/production/public/2024-09/FIFA.svg"
+            ]
+          },
+          {
+            "cells": [
+              "F1",
+              "https://statics.globant.com/production/public/2024-09/F1.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Adidas",
+              "https://statics.globant.com/production/public/2024-09/Adidas.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Warner Bros",
+              "https://statics.globant.com/production/public/2024-09/WB.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Google",
+              "https://statics.globant.com/production/public/2024-09/Google.svg"
+            ]
+          },
+          {
+            "cells": [
+              "Embraer",
+              "https://statics.globant.com/production/public/2024-09/Embraer.svg"
+            ]
+          },
+          {
+            "cells": [
+              "British Airways",
+              "https://statics.globant.com/production/public/2024-09/British%20Airways.svg"
+            ]
+          }
+        ],
+        "variants": "",
+        "variantList": [],
+        "items": [
+          {
+            "name": "L&#039;Oreal",
+            "logo": "https://statics.globant.com/production/public/2024-09/Loreal.svg"
+          },
+          {
+            "name": "EA",
+            "logo": "https://statics.globant.com/production/public/2024-09/EA.svg"
+          },
+          {
+            "name": "Santander",
+            "logo": "https://statics.globant.com/production/public/2024-09/Santander.svg"
+          },
+          {
+            "name": "Nissan",
+            "logo": "https://statics.globant.com/production/public/2024-09/Nissan.svg"
+          },
+          {
+            "name": "Danone",
+            "logo": "https://statics.globant.com/production/public/2024-09/Danone.svg"
+          },
+          {
+            "name": "Coca-Cola",
+            "logo": "https://statics.globant.com/production/public/2024-09/Coca%20Cola.svg"
+          },
+          {
+            "name": "HSBC",
+            "logo": "https://statics.globant.com/production/public/2024-09/HSBC.svg"
+          },
+          {
+            "name": "J&amp;J",
+            "logo": "https://statics.globant.com/production/public/2024-09/J%26J.svg"
+          },
+          {
+            "name": "FIFA",
+            "logo": "https://statics.globant.com/production/public/2024-09/FIFA.svg"
+          },
+          {
+            "name": "F1",
+            "logo": "https://statics.globant.com/production/public/2024-09/F1.svg"
+          },
+          {
+            "name": "Adidas",
+            "logo": "https://statics.globant.com/production/public/2024-09/Adidas.svg"
+          },
+          {
+            "name": "Warner Bros",
+            "logo": "https://statics.globant.com/production/public/2024-09/WB.svg"
+          },
+          {
+            "name": "Google",
+            "logo": "https://statics.globant.com/production/public/2024-09/Google.svg"
+          },
+          {
+            "name": "Embraer",
+            "logo": "https://statics.globant.com/production/public/2024-09/Embraer.svg"
+          },
+          {
+            "name": "British Airways",
+            "logo": "https://statics.globant.com/production/public/2024-09/British%20Airways.svg"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -9,12 +9,12 @@
 }
 
 /* Light theme (default) — white bg like globant.com AI Pods section */
-.twocol-section--light {
+.twocol-section.light {
   background-color: #ffffff;
 }
 
 /* Dark theme variant */
-.twocol-section--dark {
+.twocol-section.dark {
   background-color: var(--color-bg-dark);
 }
 
@@ -36,7 +36,8 @@
   gap: 0;
 }
 
-.twocol__eyebrow {
+.twocol__eyebrow,
+.twocol__left > p:first-of-type {
   font-family: var(--font-title);
   font-size: 1.2rem;
   font-weight: 800;
@@ -46,7 +47,9 @@
   margin-bottom: 1.6rem;
 }
 
-.twocol__title {
+.twocol__title,
+.twocol__left > h2,
+.twocol__left > h3 {
   font-family: var(--font-title);
   font-size: clamp(3rem, 4.5vw, 5rem);
   font-weight: 800;
@@ -56,24 +59,31 @@
 }
 
 /* Light theme: dark text */
-.twocol-section--light .twocol__title {
+.twocol-section.light .twocol__title,
+.twocol-section.light .twocol__left > h2,
+.twocol-section.light .twocol__left > h3 {
   color: #000000;
 }
 /* Dark theme: white text */
-.twocol-section--dark .twocol__title {
+.twocol-section.dark .twocol__title,
+.twocol-section.dark .twocol__left > h2,
+.twocol-section.dark .twocol__left > h3 {
   color: #ffffff;
 }
 
-.twocol__description {
+.twocol__description,
+.twocol__left > p:not(:first-of-type) {
   font-size: clamp(1.5rem, 2vw, 1.8rem);
   line-height: 1.65;
   margin-bottom: 3.2rem;
 }
 
-.twocol-section--light .twocol__description {
+.twocol-section.light .twocol__description,
+.twocol-section.light .twocol__left > p:not(:first-of-type) {
   color: #333333;
 }
-.twocol-section--dark .twocol__description {
+.twocol-section.dark .twocol__description,
+.twocol-section.dark .twocol__left > p:not(:first-of-type) {
   color: var(--color-text-secondary);
 }
 
@@ -89,7 +99,8 @@
   justify-content: center;
 }
 
-.twocol__image {
+.twocol__image,
+.twocol__right > img {
   width: 100%;
   height: auto;
   border-radius: 8px;

@@ -1,18 +1,11 @@
-<div class="twocol-section twocol-section--{{theme}}">
+<div class="twocol-section {{variants}}">
   <div class="container twocol__container">
     <div class="twocol__grid">
       <div class="twocol__left">
-        {{#if eyebrow}}<p class="twocol__eyebrow">{{eyebrow}}</p>{{/if}}
-        <h2 class="twocol__title">{{title}}</h2>
-        <p class="twocol__description">{{description}}</p>
-        {{#if ctaText}}
-        <a href="{{ctaUrl}}" class="btn btn--primary twocol__cta">{{ctaText}}</a>
-        {{/if}}
+        {{cell_0_0}}
       </div>
       <div class="twocol__right">
-        {{#if image}}
-        <img class="twocol__image" src="{{image}}" srcset="{{imageSrcset}}" sizes="(max-width: 768px) 100vw, 50vw" alt="{{imageAlt}}" loading="lazy" />
-        {{/if}}
+        {{cell_0_1}}
       </div>
     </div>
   </div>
