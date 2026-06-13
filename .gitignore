@@ -16,3 +16,11 @@ Thumbs.db
 # Cache and local temp files
 .cache/
 **/.cache/
+
+# Local agent / tooling config
+.claude/
+.mcp.json
+.knowledge-graph-poc/
+
+# Scratch workspace (local experiments, captures, downloads)
+scratch/
