@@ -122,12 +122,12 @@ We completed a performance audit to eliminate render-blocking network requests a
 
 ---
 
-## Positional Milo-Style Authoring Upgrade & Verification
+## Positional Grid-Based Authoring Upgrade & Verification
 
-We have upgraded the entire document composition to match Adobe Milo's grid-based positional authoring style, completely replacing the legacy key-value tables for all block types.
+We have upgraded the entire document composition to a grid-based positional authoring style, completely replacing the legacy key-value tables for all block types.
 
 ### 1. Key Accomplishments
-- **Milo Grid Mapping**: Refactored `docParser.ts` to map cell values strictly to `cell_r_c` variables, allowing authors to write titles, descriptions, and buttons inside a single table cell (e.g. `cell_0_0`).
+- **Grid Cell Mapping**: Refactored `docParser.ts` to map cell values strictly to `cell_r_c` variables, allowing authors to write titles, descriptions, and buttons inside a single table cell (e.g. `cell_0_0`).
 - **Decoupled Formatting & Native Headings**: Reverted block-specific post-processing formatting helpers (like `formatHeroContent`, `formatTwoColumnContent`) from the core parser to prevent tight coupling. Instead, we write native Google Doc styles (e.g. `HEADING_1` for Hero title, `HEADING_2` for Two-Column/Studio/FAQ titles) via the Docs API, which the parser outputs as standard semantic tags (`<h1>`, `<h2>`, etc.).
 - **CSS Child Selector Styling**: Enhanced stylesheets to target semantic headings and paragraph layouts dynamically:
   - In `hero.css`: Map `.hero__content > p:first-of-type` to the tagline style, and `.hero__content > p:nth-of-type(2)` to description.

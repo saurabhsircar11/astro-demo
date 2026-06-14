@@ -62,7 +62,7 @@
   - [x] Remove render-blocking `@import` from `core-assets-pipeline/src/index.css`
   - [x] Implement asynchronous, non-blocking font loading in `[...slug].astro`
   - [x] Add preconnect resource hints for `IMAGE_OPTIMIZER_URL`
-  - [x] **Phase 10: Adobe Milo-Style Positional Authoring**
+  - [x] **Phase 10: Grid-Based Positional Authoring**
   - [x] Refactor `docParser.ts` to map cell values strictly to `cell_r_c` variables
   - [x] Simplify `hero.html` and `two-column.html` to consume full HTML blocks directly
   - [x] Create cell-to-item parser (`parseCellToItem`) resolving images, titles, descriptions, and links from single cell contents

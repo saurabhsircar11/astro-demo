@@ -356,7 +356,7 @@ export async function getPageAST(slug: string): Promise<PageContent> {
         return await parseGoogleDoc(slug);
       }
 
-      // 2. Dynamic Milo-style mount point directory mapping (Google Drive folder)
+      // 2. Dynamic slug-based mount point directory mapping (Google Drive folder)
       if (folderId) {
         console.log(`[ContentProvider] Resolving slug "/${slug}" inside Drive folder: ${folderId}`);
         try {
