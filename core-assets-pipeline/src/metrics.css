@@ -1,73 +1,57 @@
 /* ═══════════════════════════════════════════════════════
    Metrics Component — Globant.com Style
-   Big numbers, white-to-lime gradient text, dark background
+   Light grey background, BG-stats photo, stats icons
    ═══════════════════════════════════════════════════════ */
 
 .metrics-section {
-  padding: 9rem 0;
-  background-color: var(--color-bg-dark);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
+  padding: 6rem 0;
+  background-color: #ffffff;
   position: relative;
   overflow: hidden;
-}
-
-/* Subtle lime radial glow behind the numbers */
-.metrics-section::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 800px;
-  height: 400px;
-  background: radial-gradient(ellipse, rgba(195, 213, 0, 0.06) 0%, transparent 65%);
-  pointer-events: none;
-}
-
-/* Divider line */
-.metrics-section::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(195, 213, 0, 0.25), transparent);
+  color: #000000;
 }
 
 /* Optional section label above numbers */
+.metrics-title,
+.metrics__header {
+  text-align: center;
+  margin-bottom: 4rem;
+  position: relative;
+  z-index: 2;
+}
+
 .metrics-title {
   font-size: 1.1rem;
   font-weight: 800;
   color: var(--color-primary);
-  text-align: center;
-  margin-bottom: 5.6rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1.2rem;
-  position: relative;
-  z-index: 2;
 }
 
-.metrics-title::before,
-.metrics-title::after {
-  content: '';
-  display: inline-block;
-  width: 3.2rem;
-  height: 1px;
-  background: rgba(195, 213, 0, 0.35);
+.metrics__header h1,
+.metrics__header h2 {
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 950;
+  color: #000000;
+  margin-bottom: 1.2rem;
 }
 
-/* Grid: up to 4 equally-spaced stats */
+.metrics__header p {
+  font-size: 1.6rem;
+  color: #4b5563;
+}
+
+/* Grid: up to 5 equally-spaced stats */
 .metrics-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 4rem;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 2rem;
   position: relative;
   z-index: 2;
 }
@@ -76,64 +60,79 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.2rem;
-  padding: 1.6rem;
-  position: relative;
+  text-align: center;
+  /* narrow side padding so values like "Cloud Lead" stay on one line */
+  padding: 1.6rem 0.8rem;
+  flex: 1 1 0;
+  min-width: 200px;
   transition: transform var(--transition-normal);
 }
 
-/* Vertical divider between items */
-.metric-item + .metric-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20%;
-  height: 60%;
-  width: 1px;
-  background: var(--color-border);
-}
-
 .metric-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
-/* Large stat number — white-to-lime gradient text, heavy weight */
+.metric-item__icon {
+  margin-bottom: 1.2rem;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-item__icon img {
+  height: 30px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Large stat number — live spec: Heebo-Bold 4.2rem */
 .metric-item__value {
   font-family: var(--font-title);
-  font-size: clamp(4.8rem, 8vw, 7.2rem);
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.04em;
-  background: linear-gradient(135deg, #ffffff 50%, var(--color-primary) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  transition: all var(--transition-normal);
+  font-size: 4.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+  color: #222222;
+  margin-bottom: 0.8rem;
 }
 
-.metric-item:hover .metric-item__value {
-  filter: brightness(1.15);
-}
-
-/* Label below the number */
+/* Label below the number — live spec: 1.6rem #121212, 85% width */
 .metric-item__label {
-  font-size: 1.5rem;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  max-width: 220px;
-  line-height: 1.5;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #121212;
+  line-height: 1.45;
+  max-width: 85%;
+  margin-inline: auto;
+}
+
+.metric-item__label strong {
+  font-weight: 700;
+  color: #121212;
 }
 
 /* ── Responsive ─────────────────────────────── */
-@media (max-width: 768px) {
-  .metrics-section { padding: 5.6rem 0; }
+@media (max-width: 992px) {
   .metrics-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.4rem;
+    gap: 1.6rem;
   }
-  .metric-item + .metric-item::before { display: none; }
+  .metric-item {
+    flex: 1 1 45%;
+    max-width: 100%;
+  }
 }
 
-@media (max-width: 480px) {
-  .metrics-grid { grid-template-columns: 1fr; }
+@media (max-width: 576px) {
+  .metrics-section {
+    padding: 4.8rem 0;
+  }
+  .metrics-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+  .metric-item {
+    flex: 1 1 100%;
+    width: 100%;
+  }
 }

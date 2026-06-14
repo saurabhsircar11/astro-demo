@@ -60,7 +60,7 @@ function getOptimizationConfig(key: string) {
   if (/logo/i.test(key)) {
     return { defaultWidth: 200, widths: [100, 200, 300] };
   }
-  return { defaultWidth: 800, widths: [400, 600, 800, 1200] };
+  return { defaultWidth: 1200, widths: [400, 600, 800, 1200, 1600] };
 }
 
 function optimizeImagesInObject(obj: any): any {
@@ -105,40 +105,44 @@ function optimizeImagesInObject(obj: any): any {
 const pageContent = await getPageAST(slug || '');
 const { metadata, blocks } = pageContent;
 
-// Extract Largest Contentful Paint (LCP) image from the first block for preloading
-const firstBlock = blocks?.[0];
+// Extract Largest Contentful Paint (LCP) image from the first content block that has one
+// (header/footer chrome blocks are skipped — preceding chrome/text-only blocks have no image)
 let lcpImageUrl = '';
 let lcpImageSrcset = '';
-if (firstBlock && firstBlock.data) {
-  const findFirstImage = (obj: any): { url: string; key: string } | null => {
-    if (!obj || typeof obj !== 'object') return null;
-    if (Array.isArray(obj)) {
-      for (const item of obj) {
-        const found = findFirstImage(item);
-        if (found) return found;
-      }
-    } else {
-      for (const [key, value] of Object.entries(obj)) {
-        if (isImageUrl(key, value)) {
-          return { url: value as string, key };
-        }
-        const found = findFirstImage(value);
-        if (found) return found;
-      }
+const findFirstImage = (obj: any): { url: string; key: string } | null => {
+  if (!obj || typeof obj !== 'object') return null;
+  if (Array.isArray(obj)) {
+    for (const item of obj) {
+      const found = findFirstImage(item);
+      if (found) return found;
     }
-    return null;
-  };
+  } else {
+    for (const [key, value] of Object.entries(obj)) {
+      if (isImageUrl(key, value)) {
+        return { url: value as string, key };
+      }
+      const found = findFirstImage(value);
+      if (found) return found;
+    }
+  }
+  return null;
+};
 
-  const lcpImg = findFirstImage(firstBlock.data);
+for (const block of blocks || []) {
+  if (block.type === 'header' || block.type === 'footer' || !block.data) continue;
+  const lcpImg = findFirstImage(block.data);
   if (lcpImg) {
     const config = getOptimizationConfig(lcpImg.key);
     lcpImageUrl = optimizeImageUrl(lcpImg.url, config.defaultWidth);
     lcpImageSrcset = generateSrcset(lcpImg.url, config.widths);
+    break;
   }
 }
 
 // 2. State storage for request-time dynamic composition
 let renderedHtml = '';
+let headerHtml = '';
+let footerHtml = '';
 const loadedCss = new Set<string>();
 const loadedJs = new Set<string>();
 let aggregatedCss = '';
@@ -153,18 +157,42 @@ try {
   console.error('[Renderer] Failed to fetch global index.css from CDN:', e.message);
 }
 
+// Helper to extract image URL from cell content if it contains an image tag
+function extractUrlFromImgTag(value: string): string {
+  if (typeof value !== 'string') return value;
+  const match = value.match(/<img[^>]+src=["']([^"']+)["']/i);
+  if (match) {
+    return match[1].replace(/&amp;/g, '&');
+  }
+  return value;
+}
+
 // 3. Loop through blocks and stitch HTML, CSS, and JS components
 for (const block of blocks) {
   const { type } = block;
   const data = optimizeImagesInObject(block.data || {});
 
+  // Extract raw URL for background images to avoid inline img tag in CSS
+  for (const key of Object.keys(data)) {
+    if (/background|bg/i.test(key) && typeof data[key] === 'string' && data[key].includes('<img')) {
+      data[key] = extractUrlFromImgTag(data[key]);
+    }
+  }
+
   try {
     // A. Fetch HTML layout from Edge CDN
     const htmlTemplate = await fetchAsset(`${type}.html`, branch);
 
-    // B. Interpolate variables and append to page body
+    // B. Interpolate variables and append to page body.
+    // Header/footer blocks render outside <main> as page chrome.
     const blockHtml = renderTemplate(htmlTemplate, data);
-    renderedHtml += `\n<!-- Block: ${type} -->\n${blockHtml}`;
+    if (type === 'header') {
+      headerHtml += `\n<!-- Block: ${type} -->\n${blockHtml}`;
+    } else if (type === 'footer') {
+      footerHtml += `\n<!-- Block: ${type} -->\n${blockHtml}`;
+    } else {
+      renderedHtml += `\n<!-- Block: ${type} -->\n${blockHtml}`;
+    }
 
     // C. Fetch and cache CSS stylesheet (deduplicated)
     if (!loadedCss.has(type)) {
@@ -279,15 +307,15 @@ console.log(`[Render Engine] Dynamic page rendered in ${durationMs.toFixed(2)}ms
     />
   )}
 
-  <!-- Asynchronously load Heebo Font CSS (Non-blocking CRP Optimization) -->
-  <link 
-    rel="preload" 
-    as="style" 
-    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" 
+  <!-- Asynchronously load Heebo Font CSS (live globant.com typeface; Non-blocking CRP Optimization) -->
+  <link
+    rel="preload"
+    as="style"
+    href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
     onload="this.onload=null;this.rel='stylesheet'"
   />
   <noscript>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap" />
   </noscript>
 
   <!-- Global design system stylesheet (fetched from CDN and inlined for rendering speed) -->
@@ -302,173 +330,17 @@ console.log(`[Render Engine] Dynamic page rendered in ${durationMs.toFixed(2)}ms
   ))}
 </head>
 <body class={metadata.theme === 'dark' ? 'dark-theme' : 'light-theme'}>
-  
-  <!-- Header / Navigation Shell — faithful replica of globant.com nav -->
-  <header style="
-    position: sticky;
-    top: 0;
-    z-index: 200;
-    background-color: #000000;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding: 0;
-  ">
-    <div class="container" style="
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 72px;
-    ">
-      <!-- Globant wordmark with lime-green ► arrow (matches real site logo) -->
-      <a href="/" aria-label="Globant home" style="
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        text-decoration: none;
-        flex-shrink: 0;
-      ">
-        <span style="
-          font-family: 'Heebo', sans-serif;
-          font-size: 2.2rem;
-          font-weight: 900;
-          color: #ffffff;
-          letter-spacing: -0.02em;
-          line-height: 1;
-        ">Globant</span>
-        <!-- Lime-green play/arrow icon matching real Globant logo -->
-        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <polygon points="4,2 18,10 4,18" fill="#c3d500"/>
-        </svg>
-      </a>
 
-      <!-- Primary nav — matches globant.com main navigation items -->
-      <nav aria-label="Main navigation">
-        <ul style="
-          display: flex;
-          align-items: center;
-          gap: 0.4rem;
-          list-style: none;
-          font-family: 'Heebo', sans-serif;
-          font-size: 1.4rem;
-          font-weight: 700;
-        ">
-          <li><a href="/our-offering" style="
-            color: rgba(255,255,255,0.85);
-            padding: 0.8rem 1.2rem;
-            border-radius: 6px;
-            transition: color 0.18s, background 0.18s;
-            display: block;
-          " onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Our Offering</a></li>
-          <li><a href="/about" style="
-            color: rgba(255,255,255,0.85);
-            padding: 0.8rem 1.2rem;
-            border-radius: 6px;
-            transition: color 0.18s;
-            display: block;
-          " onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">About</a></li>
-          <li><a href="/insights" style="
-            color: rgba(255,255,255,0.85);
-            padding: 0.8rem 1.2rem;
-            border-radius: 6px;
-            transition: color 0.18s;
-            display: block;
-          " onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Insights</a></li>
-          <li><a href="/careers" style="
-            color: rgba(255,255,255,0.85);
-            padding: 0.8rem 1.2rem;
-            border-radius: 6px;
-            transition: color 0.18s;
-            display: block;
-          " onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.85)'">Careers</a></li>
-          <li><a href="/contact" style="
-            display: block;
-            margin-left: 0.8rem;
-            padding: 0.9rem 2rem;
-            background: #c3d500;
-            color: #000000;
-            font-weight: 800;
-            font-size: 1.4rem;
-            border-radius: 50px;
-            transition: background 0.18s, box-shadow 0.18s;
-          " onmouseover="this.style.background='#d4e800'; this.style.boxShadow='0 4px 16px rgba(195,213,0,0.35)'" onmouseout="this.style.background='#c3d500'; this.style.boxShadow='none'">Contact Us</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
+  <!-- Page chrome: header authored in the Google Doc, composed from the CDN header component -->
+  <Fragment set:html={headerHtml} />
 
   <!-- Page Main Content Body -->
   <main>
     <Fragment set:html={renderedHtml} />
   </main>
 
-  <!-- Footer Shell — globant.com-style dark footer -->
-  <footer style="
-    background-color: #000000;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding: 6rem 0 3rem;
-    font-family: 'Heebo', sans-serif;
-  ">
-    <div class="container">
-      <!-- Footer top: logo + columns -->
-      <div style="
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr;
-        gap: 4rem;
-        margin-bottom: 5rem;
-      ">
-        <!-- Brand column -->
-        <div>
-          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.6rem;">
-            <span style="font-size: 2.2rem; font-weight: 900; color: #fff; letter-spacing: -0.02em;">Globant</span>
-            <svg width="16" height="16" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="4,2 18,10 4,18" fill="#c3d500"/></svg>
-          </div>
-          <p style="color: rgba(255,255,255,0.5); font-size: 1.4rem; line-height: 1.65; max-width: 300px;">
-            Engineering digital transformations for global companies, from startups to Fortune 500.
-          </p>
-        </div>
-        <!-- Links column 1 -->
-        <div>
-          <p style="color: #c3d500; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.6rem;">Company</p>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-            <li><a href="/about" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">About Us</a></li>
-            <li><a href="/careers" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Careers</a></li>
-            <li><a href="/investors" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Investors</a></li>
-          </ul>
-        </div>
-        <!-- Links column 2 -->
-        <div>
-          <p style="color: #c3d500; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.6rem;">Services</p>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-            <li><a href="/our-offering" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Our Offering</a></li>
-            <li><a href="/insights" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Insights</a></li>
-            <li><a href="/contact" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">Contact Us</a></li>
-          </ul>
-        </div>
-        <!-- Links column 3 -->
-        <div>
-          <p style="color: #c3d500; font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1.6rem;">Follow Us</p>
-          <ul style="list-style: none; display: flex; flex-direction: column; gap: 1rem;">
-            <li><a href="https://linkedin.com/company/globant" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">LinkedIn</a></li>
-            <li><a href="https://twitter.com/globant" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">X (Twitter)</a></li>
-            <li><a href="https://youtube.com/globant" style="color: rgba(255,255,255,0.6); font-size: 1.4rem; transition: color 0.18s;" onmouseover="this.style.color='#c3d500'" onmouseout="this.style.color='rgba(255,255,255,0.6)'">YouTube</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Footer bottom: copyright + legal -->
-      <div style="
-        border-top: 1px solid rgba(255,255,255,0.1);
-        padding-top: 2.4rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 1.2rem;
-      ">
-        <p style="color: rgba(255,255,255,0.4); font-size: 1.3rem;">&copy; {new Date().getFullYear()} Globant. All rights reserved.</p>
-        <p style="color: rgba(255,255,255,0.3); font-size: 1.2rem;">Powered by Zero-Compile Edge Composition — POC</p>
-      </div>
-    </div>
-  </footer>
+  <!-- Page chrome: footer authored in the Google Doc, composed from the CDN footer component -->
+  <Fragment set:html={footerHtml} />
 
   <!-- Dynamic Compiled Client-Side Interactivity Script -->
   {aggregatedJs && <script type="text/javascript" set:html={aggregatedJs}></script>}
@@ -488,5 +360,12 @@ console.log(`[Render Engine] Dynamic page rendered in ${durationMs.toFixed(2)}ms
     --color-border: #e5e7eb;
     --color-text-primary: #111827;
     --color-text-secondary: #4b5563;
+  }
+  /* Restore dark theme variables inside dark sections/containers when parent is light-theme */
+  .dark-theme, .dark, [class*="dark"] {
+    --color-bg-card: rgba(255, 255, 255, 0.04);
+    --color-border: rgba(255, 255, 255, 0.12);
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #b0b8c1;
   }
 </style>

@@ -112,6 +112,13 @@ function parseParagraph(paragraph: any, inlineObjects: any): string {
     return '';
   }
 
+  // Convert raw image/SVG URLs into native img tags
+  const trimmedContent = content.replace(/&nbsp;/g, ' ').trim();
+  const isRawImageUrl = /^(https?:\/\/[^\s<]+?\.(jpg|jpeg|png|webp|svg|gif)(?:\?[^\s<]*)?)$/i.test(trimmedContent);
+  if (isRawImageUrl) {
+    return `<img src="${trimmedContent}" alt="Authored Asset" />`;
+  }
+
   return `<${tag}>${content}</${tag}>`;
 }
 
@@ -144,7 +151,8 @@ function parseCellToItem(html: string): Record<string, string> {
     image: '',
     title: '',
     description: '',
-    link: ''
+    link: '',
+    linkText: ''
   };
 
   if (!html) return result;
@@ -161,10 +169,11 @@ function parseCellToItem(html: string): Record<string, string> {
     }
   }
 
-  // 2. Extract link URL (find first <a href="...">)
-  const linkMatch = html.match(/<a[^>]+href=["']([^"']+)["']/i);
+  // 2. Extract link URL and anchor text (find first <a href="...">)
+  const linkMatch = html.match(/<a[^>]+href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/i);
   if (linkMatch) {
     result.link = linkMatch[1].replace(/^https?:\/\/\/\/?/, '/');
+    result.linkText = linkMatch[2].replace(/<\/?[^>]+(>|$)/g, '').trim();
   }
 
   // Clean HTML by removing image tags for text processing
@@ -265,8 +274,8 @@ function parseTableBlock(table: any, inlineObjects: any) {
     });
     positionalRows.push({ cells: rowHtmlValues });
 
-    // A. Detect 2-column key-value row
-    if (cells.length === 2) {
+    // A. Detect 2 or 3-column key-value row (with empty third cell)
+    if (cells.length === 2 || (cells.length === 3 && rowHtmlValues[2] === '')) {
       const k = parseCellContent(cells[0], inlineObjects).trim().replace(/<\/?[^>]+(>|$)/g, '');
       const v = rowHtmlValues[1];
       if (keyRegex.test(k)) {
@@ -328,7 +337,7 @@ function parseTableBlock(table: any, inlineObjects: any) {
   }
 
   // Positional list/grid parsing fallback for components like studio-cards, logo-scroll, FAQ, metrics
-  const listComponents = ['studio-cards', 'logo-scroll', 'services-grid', 'metrics', 'faq'];
+  const listComponents = ['studio-cards', 'logo-scroll', 'services-grid', 'metrics', 'faq', 'case-study'];
   const isPositional = properties.cell_0_0 !== undefined && properties.sectionTitle === undefined && properties.sectionSubtitle === undefined;
 
   if (isPositional && listComponents.includes(componentType)) {
@@ -336,6 +345,11 @@ function parseTableBlock(table: any, inlineObjects: any) {
     // Start from rowIndex 1 (since rowIndex 0 is the section header)
     for (let r = 1; r < positionalRows.length; r++) {
       const row = positionalRows[r];
+      // Skip key-value rows in positional lists (e.g. key-value properties like ctaText or ctaUrl)
+      const firstCellText = row.cells[0]?.replace(/<\/?[^>]+(>|$)/g, '').trim();
+      if (keyRegex.test(firstCellText)) {
+        continue;
+      }
       row.cells.forEach(cellVal => {
         if (cellVal && cellVal.trim()) {
           const item = parseCellToItem(cellVal);
@@ -392,7 +406,6 @@ export async function parseGoogleDoc(documentId: string) {
 
 /**
  * Connects to Google Drive API and searches for a document by name (slug) inside a mounted folder.
- * This matches Adobe Milo's dynamic routing concept.
  */
 export async function resolveSlugToDocId(folderId: string, slug: string): Promise<string | null> {
   const auth = new google.auth.GoogleAuth({

@@ -1,0 +1,110 @@
+<section class="contact-form-section {{variants}}">
+  <div class="contact-form__media">
+    {{#if cell_0_2}}
+    <div class="contact-form__media-mobile">{{cell_0_2}}</div>
+    <div class="contact-form__media-desktop">{{cell_0_1}}</div>
+    {{else}}
+    {{cell_0_1}}
+    {{/if}}
+  </div>
+
+  <div class="container contact-form__container">
+    <div class="contact-form__grid">
+      <!-- Left column: Title and Subtitle -->
+      <div class="contact-form__left">
+        {{#if cell_0_0}}
+        {{cell_0_0}}
+        {{else}}
+        <h2 class="contact-form__title">{{#if sectionTitle}}{{sectionTitle}}{{else}}Tell us how we can help you{{/if}}</h2>
+        {{#if sectionSubtitle}}<p class="contact-form__subtitle">{{sectionSubtitle}}</p>{{/if}}
+        {{/if}}
+      </div>
+
+      <!-- Right column: Interactive form -->
+      <div class="contact-form__right">
+        <form class="contact-form__form" onsubmit="event.preventDefault(); alert('Form submitted! Thank you.');">
+          <!-- Your challenge/goal -->
+          <div class="form-group">
+            <label for="comments">Your challenge/goal<span class="form-required">*</span></label>
+            <input type="text" id="comments" required maxlength="300" />
+            <div class="form-counter"><span class="form-counter__current">0</span>/300</div>
+          </div>
+
+          <!-- Name row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="first_name">First Name<span class="form-required">*</span></label>
+              <input type="text" id="first_name" required />
+            </div>
+            <div class="form-group">
+              <label for="last_name">Last Name<span class="form-required">*</span></label>
+              <input type="text" id="last_name" required />
+            </div>
+          </div>
+
+          <!-- Contact details row -->
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email<span class="form-required">*</span></label>
+              <input type="email" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" id="company" />
+            </div>
+          </div>
+
+          <!-- Country + Industry selects -->
+          <div class="form-row">
+            <div class="form-group select-group">
+              <label for="country">Country<span class="form-required">*</span></label>
+              <select id="country" required>
+                <option value="" disabled selected>Select a country</option>
+                <option value="United States">United States</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="Argentina">Argentina</option>
+                <option value="India">India</option>
+                <option value="Spain">Spain</option>
+                <option value="Colombia">Colombia</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Canada">Canada</option>
+                <option value="Mexico">Mexico</option>
+              </select>
+            </div>
+            <div class="form-group select-group">
+              <label for="industry">Industry <span class="form-required">*</span></label>
+              <select id="industry" required>
+                <option value="" disabled selected>- Select -</option>
+                <option value="Banks & Insurance">Banks &amp; Insurance</option>
+                <option value="Consumer & Retail">Consumer &amp; Retail</option>
+                <option value="Energy & Utilities">Energy &amp; Utilities</option>
+                <option value="Healthcare & Life Sciences">Healthcare &amp; Life Sciences</option>
+                <option value="Media & Entertainment">Media &amp; Entertainment</option>
+                <option value="Technology">Technology</option>
+                <option value="Travel & Hospitality">Travel &amp; Hospitality</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Consent checkbox -->
+          <div class="form-checkbox">
+            <input type="checkbox" id="consent" />
+            <label for="consent">
+              I would like to sign up with my email address to receive Globant communications with updates, valuable resources and useful tips.
+            </label>
+          </div>
+
+          <!-- Legal disclaimers -->
+          <p class="form-disclaimer">By submitting this form you confirm that you agree to Globant's <a href="https://www.globant.com/privacy-policy" target="_blank" rel="noopener">privacy policy</a>.</p>
+          <p class="form-disclaimer">This site is protected by reCAPTCHA and the <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms of Service</a> apply.</p>
+
+          <!-- Submit button -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Start Reinventing</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

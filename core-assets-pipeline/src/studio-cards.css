@@ -4,36 +4,54 @@
    ═══════════════════════════════════════════════════════ */
 
 .studios-section {
-  padding: 8rem 0;
+  padding: 10rem 0;
   background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
 }
 
+.studios-section::before {
+  display: none;
+}
+
+.studios__container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Live spec: section title 3.6rem Heebo-Bold left (2.6rem mobile) */
 .studios__title,
 .studios__header h1,
 .studios__header h2 {
   font-family: var(--font-title);
-  font-size: clamp(2.8rem, 5vw, 4rem);
-  font-weight: 900;
-  color: #000000;
-  letter-spacing: -0.025em;
-  margin-bottom: 0.8rem;
-}
-
-.studios__subtitle,
-.studios__header h3 {
-  font-family: var(--font-title);
-  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  font-size: 3.6rem;
   font-weight: 700;
-  color: #000000;
-  margin-bottom: 0.8rem;
+  color: #222222;
+  letter-spacing: 0;
+  line-height: 1.2;
+  margin-bottom: 1.2rem;
 }
 
+/* Bold subtitle line — live: heebo-bold desktop-font-20 */
+.studios__header p strong {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222222;
+}
+
+/* Description — live: heebo-light desktop-font-20 */
 .studios__body,
 .studios__header p {
-  font-size: 1.6rem;
-  color: #444444;
-  line-height: 1.65;
-  max-width: 780px;
+  font-family: var(--font-title);
+  font-size: 2rem;
+  font-weight: 300;
+  color: #222222;
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+}
+
+.studios__header {
   margin-bottom: 4rem;
 }
 
@@ -46,33 +64,35 @@
 .studios-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
+  gap: 2.4rem;
   margin-bottom: 4rem;
 }
 
-/* Card */
+/* Card — live .accelerators-card spec */
 .studio-card {
   display: flex;
   flex-direction: column;
   text-decoration: none;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border: none;
+  border-radius: 2rem;
   overflow: hidden;
   transition: box-shadow var(--transition-normal), transform var(--transition-normal);
   background: #ffffff;
+  padding: 2.7rem;
+  box-shadow: 0 0.3rem 1.6rem 0 rgba(0, 0, 0, 0.05);
 }
 
 .studio-card:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px);
+  box-shadow: 0 0.8rem 2.4rem 0 rgba(0, 0, 0, 0.10);
 }
 
 /* Industry photo at top of card */
 .studio-card__img-wrap {
   width: 100%;
-  aspect-ratio: 258 / 98; /* exact globant.com card image ratio */
+  aspect-ratio: 258 / 140;
   overflow: hidden;
-  background: #f3f4f6;
+  border-radius: 8px;
 }
 
 .studio-card__img {
@@ -84,44 +104,45 @@
 }
 
 .studio-card:hover .studio-card__img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
-/* Lime-green top accent bar */
+/* Disabled top accent bar */
 .studio-card__img-wrap::after {
-  content: '';
-  display: block;
-  height: 3px;
-  background: var(--color-primary);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform var(--transition-normal);
-}
-.studio-card:hover .studio-card__img-wrap::after {
-  transform: scaleX(1);
+  display: none;
 }
 
 /* Card body */
 .studio-card__body {
-  padding: 1.6rem;
+  padding: 1.8rem 0 0 0;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1.2rem;
 }
 
+/* Live: card h4 2.8rem/4.2rem desktop (2.2/3 mobile) */
 .studio-card__title {
   font-family: var(--font-title);
-  font-size: 1.6rem;
+  font-size: 2.8rem;
   font-weight: 700;
-  color: #000000;
-  line-height: 1.2;
+  color: #222222;
+  line-height: 4.2rem;
+  letter-spacing: 0;
 }
 
+/* Live: .accelerators-card__description — 1.6rem #444 */
 .studio-card__desc {
-  font-size: 1.35rem;
-  color: #555555;
-  line-height: 1.6;
+  font-size: 1.6rem;
+  color: #444444;
+  line-height: 1.5;
+}
+
+@media (max-width: 991px) {
+  .studio-card__title {
+    font-size: 2.2rem;
+    line-height: 3rem;
+  }
 }
 
 /* CTA row */

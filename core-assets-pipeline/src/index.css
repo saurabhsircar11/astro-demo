@@ -1,17 +1,21 @@
 /*
  * Globant.com Design System — Faithful Replica
- * Primary accent: #c3d500 (Globant Lime Green, exact match from site CSS: .glb-a-rich-text-default a{color:#c3d500})
- * Body font:      Heebo (closest open match to Globant's custom Circular/Heebo stack)
- * Base size:      10px root (rem math like Globant's codebase)
+ * Values extracted from the live globant.com stylesheet (scratch/globant_combined.css):
+ *   fonts   — Heebo (Heebo-Bold titles, Heebo-Light/Regular body)
+ *   greens  — #bfd732 primary, CTA gradient #d9e021 → #8cc63f, text links #6daa52
+ *   base    — 10px root (live: body { font-size: 10px })
  */
 :root {
   --font-title: 'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-body:  'Heebo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Globant exact brand colors */
-  --color-primary:       #c3d500;   /* Globant Lime Green */
-  --color-primary-hover: #d4e800;
-  --color-primary-rgb:   195, 213, 0;
+  /* Globant exact brand colors (live stylesheet values) */
+  --color-primary:        #bfd732;
+  --color-primary-strong: #8cc63f;
+  --color-gradient-start: #d9e021;
+  --color-link-green:     #6daa52;
+  --color-primary-hover:  #8cc63f;
+  --color-primary-rgb:    191, 215, 50;
 
   /* Page backgrounds */
   --color-bg-dark:    #000000;
@@ -20,7 +24,7 @@
 
   /* Borders */
   --color-border:       rgba(255, 255, 255, 0.12);
-  --color-border-hover: rgba(195, 213, 0, 0.35);
+  --color-border-hover: rgba(151, 200, 56, 0.35);
 
   /* Text */
   --color-text-primary:   #ffffff;
@@ -37,12 +41,13 @@
 
 /* ── Reset ──────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+input, button, select, textarea { font-family: inherit; }
 
 html { font-size: 10px; scroll-behavior: smooth; }
 
 body {
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-primary);
+  background-color: #ffffff;
+  color: #222222;
   font-family: var(--font-body);
   font-size: 1.6rem;
   line-height: 1.55;
@@ -57,13 +62,13 @@ main { flex-grow: 1; }
 
 img, video { max-width: 100%; display: block; }
 
-/* ── Typography ──────────────────────────────────────── */
+/* ── Typography — live .globant-redesign heading scale (Heebo-Bold, letter-spacing 0) ── */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-title);
   color: var(--color-text-primary);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 a {
@@ -87,50 +92,88 @@ a:focus-visible, button:focus-visible {
   padding-inline: 2.4rem;
 }
 
-/* ── Buttons — pill-shaped, lime-green fill (matching globant.com CTA) ── */
+/* ── Buttons & CTAs — exact live globant.com specs ── */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  padding: 1.2rem 2.8rem;
+  display: inline-block;
   font-family: var(--font-title);
-  font-size: 1.5rem;
-  font-weight: 700;
-  border-radius: 50px;
   cursor: pointer;
-  transition: all var(--transition-normal);
-  border: 2px solid transparent;
-  letter-spacing: 0.01em;
   white-space: nowrap;
-  line-height: 1;
+  text-decoration: none;
+  text-align: center;
+}
+
+/* Primary gradient CTA — live .primary-square-large
+   (hero "Learn how", "Find your industry", "Let's connect", services CTA) */
+.btn--primary,
+.primary-square-large {
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 1rem 3.2rem;
+  border: none;
+  color: #222222 !important;
+  letter-spacing: 0;
+  background: linear-gradient(90deg, var(--color-gradient-start) 0%, var(--color-primary-strong) 100%) 0 0 no-repeat padding-box;
+  border-radius: 0.8rem;
+  transition: background var(--transition-fast);
+}
+
+.btn--primary:hover,
+.primary-square-large:hover {
+  background: var(--color-primary-strong) 0 0 no-repeat padding-box;
+  color: #222222 !important;
+}
+
+/* Outline pill CTA — live .cta-primary
+   ("Subscribe to the future", case-study "Learn more", "Globant careers", Be Kind "Know More") */
+.btn--secondary,
+.cta-primary {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 3rem;
+  background-color: #ffffff;
+  border: 0.2rem solid #000000;
+  border-radius: 2.5rem;
+  color: #000000 !important;
+  padding: 0.3rem 3.2rem;
+  min-width: 14.8rem;
+  text-align: center;
+  font-style: normal;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.btn--secondary:hover,
+.cta-primary:hover {
+  background-color: #000000;
+  color: #ffffff !important;
+  border-color: #ffffff;
+}
+
+/* Dark-section flavor — live .cta-primary-dark */
+.dark-theme .btn--secondary,
+.dark .btn--secondary,
+.dark-theme .cta-primary,
+.dark .cta-primary {
+  background-color: #000000;
+  border-color: #ffffff;
+  color: #ffffff !important;
+}
+
+.dark-theme .btn--secondary:hover,
+.dark .btn--secondary:hover,
+.dark-theme .cta-primary:hover,
+.dark .cta-primary:hover {
+  background-color: #ffffff;
+  color: #000000 !important;
+  border-color: #000000;
+}
+
+/* Green text link — live .learn-more-button / .cta-secondary-link */
+.link-green {
+  font-family: var(--font-title);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.71;
+  color: var(--color-link-green);
   text-decoration: none;
 }
 
-/* Primary: lime-green fill, black text — matches "Learn how" button on globant.com */
-.btn--primary {
-  background-color: var(--color-primary);
-  color: #000000;
-  border-color: var(--color-primary);
-}
-.btn--primary:hover {
-  background-color: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
-  color: #000000;
-  box-shadow: 0 8px 28px rgba(var(--color-primary-rgb), 0.4);
-  transform: translateY(-2px);
-}
-
-/* Secondary/Outline: white border, white text */
-.btn--secondary,
-.btn--outline {
-  background: transparent;
-  color: var(--color-text-primary);
-  border-color: rgba(255, 255, 255, 0.4);
-}
-.btn--secondary:hover,
-.btn--outline:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-  transform: translateY(-2px);
-}

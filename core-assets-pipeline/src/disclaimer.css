@@ -1,0 +1,56 @@
+/* ═══════════════════════════════════════════════════════
+   Disclaimer Component — Exact Globant.com Style
+   Light grey background warning banner with bold elements
+   ═══════════════════════════════════════════════════════ */
+
+.disclaimer {
+  background-color: #f3f5f6;
+  color: #111827;
+  padding: 2.4rem 0;
+  font-family: var(--font-body);
+}
+
+.disclaimer__container {
+  display: flex;
+  justify-content: center;
+}
+
+.disclaimer__content {
+  max-width: 900px;
+  width: 100%;
+  font-size: 1.25rem;
+  line-height: 1.6;
+}
+
+.disclaimer__content p {
+  margin-bottom: 1.2rem;
+}
+
+.disclaimer__content p:last-child {
+  margin-bottom: 0;
+}
+
+.disclaimer__content strong {
+  font-weight: 700;
+  color: #000000;
+}
+
+/* ── Dark Mode Variant ───────────────────────────────── */
+.disclaimer.dark {
+  background-color: #111827;
+  color: #e5e7eb;
+}
+
+.disclaimer.dark .disclaimer__content strong {
+  color: #ffffff;
+}
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  .disclaimer {
+    padding: 1.8rem 0;
+  }
+  .disclaimer__content {
+    font-size: 1.2rem;
+  }
+}

@@ -4,19 +4,19 @@
    ═══════════════════════════════════════════════════════ */
 
 .logoscroll-section {
-  padding: 6rem 0;
-  background-color: #f3f5f6; /* matches globant.com statistics-logo-section bg */
+  padding: 8rem 0;
+  background-color: #ffffff;
   overflow: hidden;
 }
 
 .logoscroll__title {
   font-family: var(--font-title);
-  font-size: clamp(2rem, 3.5vw, 3.2rem);
-  font-weight: 800;
+  font-size: clamp(2.2rem, 3.5vw, 3.4rem);
+  font-weight: 850;
   color: #000000;
   text-align: center;
   letter-spacing: -0.02em;
-  margin-bottom: 4rem;
+  margin-bottom: 4.8rem;
 }
 .logoscroll__title p,
 .logoscroll__title h1,
@@ -72,14 +72,15 @@
   width: auto;
   max-width: 12rem;
   object-fit: contain;
-  /* Desaturate to greyscale like globant.com */
-  filter: grayscale(100%) opacity(0.65);
-  transition: filter var(--transition-normal);
+  /* Make all logos neutral grayscale on white background */
+  filter: grayscale(1) opacity(0.45);
+  transition: all var(--transition-normal);
   display: block;
 }
 
 .logoscroll__logo img:hover {
-  filter: grayscale(0%) opacity(1);
+  filter: none;
+  opacity: 1;
 }
 
 @media (max-width: 640px) {

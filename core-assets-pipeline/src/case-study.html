@@ -1,0 +1,59 @@
+<section class="case-study-section {{variants}}">
+  <div class="container">
+    {{#if cell_0_0}}
+    <div class="case-study__header">
+      {{cell_0_0}}
+    </div>
+    {{/if}}
+
+    <div class="case-study__slider">
+      <div class="case-study__slides">
+        {{#each items}}
+        <div class="case-study-slide">
+          <div class="case-study-slide__card">
+            <div class="case-study-slide__content">
+              <h3 class="case-study-slide__heading">Success Stories</h3>
+              <p class="case-study-slide__client">Client: <strong>{{title}}</strong></p>
+              <p class="case-study-slide__desc">{{description}}</p>
+              {{#if link}}
+              <div class="case-study-slide__cta">
+                <a href="{{link}}" class="btn btn--secondary">{{linkText}}</a>
+              </div>
+              {{/if}}
+            </div>
+            {{#if image}}
+            <div class="case-study-slide__media">
+              <span class="case-study-slide__play" aria-hidden="true"></span>
+              <img src="{{image}}" srcset="{{imageSrcset}}" sizes="(max-width: 768px) 100vw, 50vw" alt="{{title}}" loading="lazy" />
+            </div>
+            {{/if}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+
+      <!-- Slider Controls -->
+      <div class="case-study__controls">
+        <div class="case-study__counter">
+          <span class="case-study__current">01</span>
+          <span class="case-study__divider">/</span>
+          <span class="case-study__total">08</span>
+        </div>
+        <div class="case-study__nav">
+          <button class="case-study__arrow case-study__arrow--prev" aria-label="Previous slide">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <button class="case-study__arrow case-study__arrow--next" aria-label="Next slide">
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

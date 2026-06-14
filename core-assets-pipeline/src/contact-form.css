@@ -1,0 +1,373 @@
+/* ═══════════════════════════════════════════════════════
+   Contact Form Component — Globant.com Style
+   Full-bleed dark background + floating labels + light grid
+   ═══════════════════════════════════════════════════════ */
+
+.contact-form-section {
+  position: relative;
+  padding: 10rem 0;
+  background-color: #000;
+  color: #ffffff;
+  overflow: hidden;
+}
+
+/* Dark overlay */
+.contact-form-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.90) 0%,
+    rgba(0, 0, 0, 0.70) 100%
+  );
+  z-index: 1;
+}
+
+.contact-form__media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.contact-form__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.contact-form__media-mobile {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.contact-form__media-desktop {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.contact-form__container {
+  position: relative;
+  z-index: 2;
+}
+
+.contact-form__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.3fr;
+  gap: 8rem;
+  align-items: center;
+}
+
+/* ── Left Column: Typography ── */
+.contact-form__left {
+  animation: formFadeIn 0.8s ease-out both;
+}
+
+.contact-form__title,
+.contact-form__left > h1,
+.contact-form__left > h2,
+.contact-form__left > h3 {
+  font-size: clamp(3.2rem, 5vw, 5.2rem);
+  font-weight: 850;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin-bottom: 2rem;
+}
+
+.contact-form__title strong,
+.contact-form__left > h1 strong,
+.contact-form__left > h2 strong,
+.contact-form__left > h3 strong {
+  color: var(--color-primary);
+}
+
+.contact-form__subtitle,
+.contact-form__left > p {
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+}
+
+/* ── Right Column: Form Layout ── */
+.contact-form__right {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 4.8rem 4rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: formFadeIn 0.8s ease-out 0.15s both;
+}
+
+.contact-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Stacked label above boxed input (live globant.com webform style) */
+.form-group label {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.6rem;
+}
+
+/* Live: red required asterisk */
+.form-required {
+  color: #e32;
+  margin-left: 0.2rem;
+}
+
+.form-group input {
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  padding: 0.9rem 1.2rem;
+  font-family: inherit;
+  font-size: 1.5rem;
+  color: #ffffff;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.form-group input:focus {
+  border-color: var(--color-primary);
+}
+
+/* Character counter under challenge/goal, right-aligned like live "0/300" */
+.form-counter {
+  align-self: flex-end;
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 0.4rem;
+}
+
+/* Dropdown/Select Group */
+.form-group.select-group label {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+.form-group.select-group select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  padding: 1.2rem 1.6rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1.5rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.6rem center;
+  background-size: 1.6rem;
+  padding-right: 4.8rem;
+  transition: border-color var(--transition-fast);
+}
+
+.form-group.select-group select:focus {
+  border-color: var(--color-primary);
+}
+
+.form-group.select-group select option {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Checkbox Style */
+.form-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+  cursor: pointer;
+}
+
+.form-checkbox input[type="checkbox"] {
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 4px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+  top: 0.2rem;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.form-checkbox input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.form-checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0.1rem;
+  width: 0.5rem;
+  height: 0.9rem;
+  border: solid #000;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.form-checkbox label {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  user-select: none;
+  cursor: pointer;
+}
+
+/* Legal disclaimers (privacy policy / reCAPTCHA notice) */
+.form-disclaimer {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+}
+
+.form-disclaimer a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Live: compact uppercase lime pill, not full-width */
+.form-actions {
+  margin-top: 1.2rem;
+}
+
+.form-actions button {
+  width: auto;
+  text-transform: uppercase;
+}
+
+@keyframes formFadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Light variant: white page with a floating white form card (live globant.com style) ── */
+.contact-form-section.light {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.contact-form-section.light::before {
+  background: none;
+}
+
+.contact-form-section.light .contact-form__media {
+  display: none;
+}
+
+.contact-form-section.light .contact-form__title,
+.contact-form-section.light .contact-form__left > h1,
+.contact-form-section.light .contact-form__left > h2,
+.contact-form-section.light .contact-form__left > h3 {
+  color: #111827;
+}
+
+.contact-form-section.light .contact-form__subtitle,
+.contact-form-section.light .contact-form__left > p {
+  color: #4b5563;
+}
+
+.contact-form-section.light .contact-form__right {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.contact-form-section.light .form-group input {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #111827;
+}
+
+.contact-form-section.light .form-group label {
+  color: #212529;
+}
+
+.contact-form-section.light .form-counter {
+  color: #6b7280;
+}
+
+.contact-form-section.light .form-disclaimer {
+  color: #212529;
+}
+
+.contact-form-section.light .form-group.select-group select {
+  background-color: #ffffff;
+  border-color: #d1d5db;
+  color: #111827;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+.contact-form-section.light .form-group.select-group select option {
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.contact-form-section.light .form-checkbox input[type="checkbox"] {
+  border-color: #9ca3af;
+}
+
+.contact-form-section.light .form-checkbox label {
+  color: #6b7280;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .contact-form__grid {
+    grid-template-columns: 1fr;
+    gap: 4.8rem;
+  }
+  .contact-form-section {
+    padding: 8rem 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-form__media-mobile {
+    display: block;
+  }
+  .contact-form__media-desktop {
+    display: none;
+  }
+  .contact-form__right {
+    padding: 3.2rem 2.4rem;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 2.8rem;
+  }
+}

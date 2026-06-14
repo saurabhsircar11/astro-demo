@@ -109,13 +109,14 @@ const tablesData = [
 ];
 
 async function main() {
-  if (!fs.existsSync(KEY_FILE)) {
-    console.error(`Key file not found at ${KEY_FILE}`);
+  const hasCreds = process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_AUTH_AUTODETECT === 'true';
+  if (!hasCreds && !fs.existsSync(KEY_FILE)) {
+    console.error(`Key file not found at ${KEY_FILE}. Set GOOGLE_APPLICATION_CREDENTIALS or GOOGLE_AUTH_AUTODETECT=true to use Workload Identity.`);
     process.exit(1);
   }
 
   const auth = new google.auth.GoogleAuth({
-    keyFile: KEY_FILE,
+    ...(hasCreds ? {} : { keyFile: KEY_FILE }),
     scopes: [
       'https://www.googleapis.com/auth/documents',
       'https://www.googleapis.com/auth/drive'

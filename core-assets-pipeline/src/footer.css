@@ -1,0 +1,159 @@
+/* Site Footer — slim dark footer matching globant.com */
+.site-footer {
+  background-color: #000000;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4.8rem 0 0;
+  font-family: var(--font-title);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1.2fr 1.6fr;
+  gap: 4rem;
+  align-items: start;
+  padding-bottom: 4rem;
+}
+
+/* Copyright cell (left) */
+.site-footer__copyright p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 1.2rem;
+}
+
+/* Link columns: first paragraph is the bold heading, the rest are links */
+.site-footer__col p {
+  margin: 0 0 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.3rem;
+}
+
+.site-footer__col p:first-child {
+  margin-bottom: 1.4rem;
+}
+
+.site-footer__col p:first-child strong {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.site-footer__col a {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.3rem;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.site-footer__col a:hover {
+  color: var(--color-primary);
+}
+
+/* Social column: links flow into two sub-columns like the live site */
+.site-footer__col--social {
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 4rem;
+}
+
+.site-footer__col--social p:first-child {
+  grid-column: 1 / -1;
+}
+
+/* Newsletter cell: authored blurb + email signup pill */
+.site-footer__newsletter p {
+  margin: 0 0 1.4rem;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 1.5;
+  max-width: 320px;
+}
+
+.site-footer__signup {
+  display: flex;
+  align-items: center;
+  max-width: 320px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  padding: 0.4rem 0.4rem 0.4rem 1.6rem;
+}
+
+.site-footer__signup input {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  color: #ffffff;
+  font-family: var(--font-title);
+  font-size: 1.3rem;
+}
+
+.site-footer__signup input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.site-footer__signup button {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.18s;
+}
+
+.site-footer__signup button:hover {
+  background-color: var(--color-primary);
+}
+
+/* Bottom legal bar */
+.site-footer__legal {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 1.8rem 0;
+}
+
+.site-footer__legal-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem 2rem;
+}
+
+.site-footer__legal-inner p {
+  margin: 0;
+}
+
+.site-footer__legal-inner a {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.site-footer__legal-inner a:hover {
+  color: var(--color-primary);
+}
+
+@media (max-width: 900px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .site-footer__copyright {
+    order: 4;
+  }
+}
+
+@media (max-width: 560px) {
+  .site-footer__grid {
+    grid-template-columns: 1fr;
+    gap: 2.8rem;
+  }
+}

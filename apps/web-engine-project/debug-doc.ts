@@ -12,15 +12,13 @@ async function main() {
   }
 
   // Set default env values if not explicitly provided, checking both root and local folder
-  if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+  if (!process.env.GOOGLE_APPLICATION_CREDENTIALS && process.env.GOOGLE_AUTH_AUTODETECT !== 'true') {
     if (fs.existsSync('service-account.json')) {
       process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve('service-account.json');
     } else if (fs.existsSync('apps/web-engine-project/service-account.json')) {
       process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve('apps/web-engine-project/service-account.json');
     } else if (fs.existsSync('../apps/web-engine-project/service-account.json')) {
       process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve('../apps/web-engine-project/service-account.json');
-    } else {
-      process.env.GOOGLE_APPLICATION_CREDENTIALS = path.resolve('service-account.json');
     }
   }
   

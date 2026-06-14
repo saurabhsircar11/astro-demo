@@ -8,18 +8,39 @@
   position: relative;
 }
 
-/* Light theme (default) — white bg like globant.com AI Pods section */
+/* Light theme variant (white background) */
 .twocol-section.light {
   background-color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.twocol-section.light::before {
+  display: none;
 }
 
 /* Dark theme variant */
 .twocol-section.dark {
-  background-color: var(--color-bg-dark);
+  background-color: #000000;
+  position: relative;
+  overflow: hidden;
+}
+
+.twocol-section.dark::before {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(var(--color-primary-rgb), 0.05) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .twocol__container {
   position: relative;
+  z-index: 1;
 }
 
 .twocol__grid {
@@ -36,8 +57,10 @@
   gap: 0;
 }
 
+/* Eyebrow styling applies only when the authored cell leads with a kicker
+   line (paragraph before the heading) — not to descriptions under headings */
 .twocol__eyebrow,
-.twocol__left > p:first-of-type {
+.twocol__left > p:first-child {
   font-family: var(--font-title);
   font-size: 1.2rem;
   font-weight: 800;
@@ -47,15 +70,25 @@
   margin-bottom: 1.6rem;
 }
 
+/* Live spec: .globant-redesign h2 — Heebo-Bold 4.8rem/6rem (3.6/4.4 mobile) */
 .twocol__title,
 .twocol__left > h2,
 .twocol__left > h3 {
   font-family: var(--font-title);
-  font-size: clamp(3rem, 4.5vw, 5rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-size: 4.8rem;
+  font-weight: 700;
+  line-height: 6rem;
+  letter-spacing: 0;
   margin-bottom: 2.4rem;
+}
+
+@media (max-width: 991px) {
+  .twocol__title,
+  .twocol__left > h2,
+  .twocol__left > h3 {
+    font-size: 3.6rem;
+    line-height: 4.4rem;
+  }
 }
 
 /* Light theme: dark text */
@@ -72,19 +105,42 @@
 }
 
 .twocol__description,
-.twocol__left > p:not(:first-of-type) {
-  font-size: clamp(1.5rem, 2vw, 1.8rem);
-  line-height: 1.65;
+.twocol__left > p:not(:first-child) {
+  font-size: 2rem;
+  line-height: 1.6;
   margin-bottom: 3.2rem;
 }
 
 .twocol-section.light .twocol__description,
-.twocol-section.light .twocol__left > p:not(:first-of-type) {
-  color: #333333;
+.twocol-section.light .twocol__left > p:not(:first-child) {
+  color: #4b5563;
 }
 .twocol-section.dark .twocol__description,
-.twocol-section.dark .twocol__left > p:not(:first-of-type) {
-  color: var(--color-text-secondary);
+.twocol-section.dark .twocol__left > p:not(:first-child) {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Buttons authored as direct children must not stretch in the flex column */
+.twocol__left > .btn {
+  align-self: flex-start;
+}
+
+/* ── Center variant: standalone centered CTA banner ── */
+.twocol-section.center .twocol__grid {
+  grid-template-columns: 1fr;
+}
+
+.twocol-section.center .twocol__left {
+  align-items: center;
+  text-align: center;
+}
+
+.twocol-section.center .twocol__left > .btn {
+  align-self: center;
+}
+
+.twocol-section.center .twocol__right {
+  display: none;
 }
 
 /* CTA button — lime green pill like globant.com "Subscribe to the future" */
@@ -92,11 +148,97 @@
   align-self: flex-start;
 }
 
+/* Compact variant: minimal vertical padding so the section hugs its
+   neighbour (live "Let's connect" sits inside the stats block) */
+.twocol-section.compact {
+  padding: 0 0 6rem;
+}
+
+/* ── Banner variant: full-width image with text overlay ──
+   globant.com "Reinventing careers" — wide banner image (e.g. 1920x500)
+   spans the section; text is overlaid on the right half, vertically
+   centered. The authored asset already places the subject on the left,
+   so no cell-swapping is required. */
+.twocol-section.banner {
+  padding: 0;
+}
+
+/* Live banner heroes bleed edge-to-edge; the overlay text keeps
+   container-like inset via its own padding below. */
+.twocol-section.banner .twocol__container {
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* Image and text stack in the same grid cell: the row grows to fit
+   whichever is taller, so long copy can never spill into the previous
+   section the way an absolute overlay would. */
+.banner .twocol__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  position: relative;
+}
+
+.banner .twocol__right {
+  grid-area: 1 / 1;
+  display: block;
+  width: 100%;
+  align-self: center;
+}
+
+.banner .twocol__right > img {
+  width: 100%;
+  height: auto;
+  border-radius: 0;
+  display: block;
+}
+
+.banner .twocol__left {
+  grid-area: 1 / 1;
+  width: 50%;
+  justify-self: end;
+  align-self: center;
+  /* .twocol__right shares the cell and comes later in document order, so
+     without an explicit stacking order it would paint over this text. */
+  z-index: 2;
+  justify-content: center;
+  padding: 2rem 8.8rem 2rem 4.8rem;
+  box-sizing: border-box;
+}
+
+/* Mirrored banner: two-column (..., banner, banner-left) — text overlays
+   the LEFT half (globant.com "Be Kind" hero, subject baked into the
+   right side of the wide asset). */
+.banner.banner-left .twocol__left {
+  justify-self: start;
+  padding: 2rem 4.8rem 2rem 8.8rem;
+}
+
 /* ── Right Column ─────────────────────────── */
 .twocol__right {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+}
+
+/* Live places the small logo PNG directly on the image, no backdrop chrome */
+.twocol__logo-badge {
+  position: absolute;
+  bottom: 2.4rem;
+  right: 2.4rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.twocol__logo-badge img {
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .twocol__image,
@@ -115,6 +257,39 @@
   }
   .twocol__right {
     order: -1;
+  }
+
+  /* Banner variant: drop the overlay, stack image above text by default */
+  .twocol-section.banner {
+    padding: 4rem 0;
+  }
+  .banner .twocol__grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3.2rem;
+  }
+  .banner .twocol__left {
+    position: static;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    order: 1;
+  }
+  .banner .twocol__right {
+    order: 0;
+  }
+  /* Live mobile serves a taller crop (767×559); emulate it by cropping
+     the wide desktop banner around the left-placed subject. */
+  .banner .twocol__right > img {
+    aspect-ratio: 767 / 559;
+    object-fit: cover;
+    object-position: 22% center;
+  }
+
+  /* Opt-in authoring variant: two-column (..., banner, mobile-image-bottom)
+     places the image below the text on mobile instead of above. */
+  .twocol-section.banner.mobile-image-bottom .twocol__right {
+    order: 2;
   }
 }
 

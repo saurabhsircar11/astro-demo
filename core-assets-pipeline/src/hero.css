@@ -17,16 +17,17 @@
   padding: 12rem 0 8rem;
 }
 
-/* Dark overlay gradient — matches Globant's "linear-gradient(to right, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.3) 100%)" */
+/* Light scrim — live FIFA hero keeps the photo bright across the full
+   width, with just enough left-side shading for white text legibility */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.88) 0%,
-    rgba(0, 0, 0, 0.75) 45%,
-    rgba(0, 0, 0, 0.30) 100%
+    rgba(0, 0, 0, 0.55) 0%,
+    rgba(0, 0, 0, 0.25) 50%,
+    rgba(0, 0, 0, 0.05) 100%
   );
   z-index: 1;
 }
@@ -39,7 +40,7 @@
   left: -80px;
   width: 480px;
   height: 480px;
-  background: radial-gradient(ellipse, rgba(195, 213, 0, 0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(var(--color-primary-rgb), 0.07) 0%, transparent 70%);
   z-index: 1;
   pointer-events: none;
 }
@@ -58,6 +59,24 @@
   height: 100%;
   object-fit: cover;
   object-position: center top;
+}
+.hero__media-mobile {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+.hero__media-desktop {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 768px) {
+  .hero__media-mobile {
+    display: block;
+  }
+  .hero__media-desktop {
+    display: none;
+  }
 }
 
 .hero__container {
@@ -92,8 +111,8 @@
   margin-bottom: 2.4rem;
 
   padding: 0.5rem 1.4rem 0.5rem 0.5rem;
-  background: rgba(195, 213, 0, 0.08);
-  border: 1px solid rgba(195, 213, 0, 0.28);
+  background: rgba(var(--color-primary-rgb), 0.08);
+  border: 1px solid rgba(var(--color-primary-rgb), 0.28);
   border-radius: 50px;
 }
 
@@ -115,18 +134,28 @@
   fill: #000;
 }
 
-/* The main headline — huge, white, heavy weight, no gradient */
+/* The main headline — live spec: .globant-redesign h1, Heebo-Bold 6.4rem/7.2rem (4rem/5.2 mobile) */
 .hero__title,
 .hero__content > h1,
 .hero__content > h2,
 .hero__content > h3 {
   font-family: var(--font-title);
-  font-size: clamp(3.2rem, 6.5vw, 6.0rem);
-  font-weight: 900;
-  line-height: 1.02;
-  letter-spacing: -0.025em;
+  font-size: 6.4rem;
+  font-weight: 700;
+  line-height: 7.2rem;
+  letter-spacing: 0;
   color: #ffffff;
   margin-bottom: 2rem;
+}
+
+@media (max-width: 991px) {
+  .hero__title,
+  .hero__content > h1,
+  .hero__content > h2,
+  .hero__content > h3 {
+    font-size: 4rem;
+    line-height: 5.2rem;
+  }
 }
 
 /* Highlighted words in lime-green (like "World's" in FIFA page) */
@@ -138,12 +167,12 @@
   font-weight: 900;
 }
 
-/* Subtitle — slightly muted grey, matches globant.com secondary text */
+/* Subtitle — live body copy: Heebo-Regular 2rem white */
 .hero__description,
 .hero__content > p:nth-of-type(2) {
-  font-size: clamp(1.5rem, 2.2vw, 1.8rem);
+  font-size: 2rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
   margin-bottom: 3.2rem;
   max-width: 580px;

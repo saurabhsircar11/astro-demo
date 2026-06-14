@@ -1,9 +1,12 @@
 <section class="hero {{variants}}">
-  {{#if cell_0_1}}
   <div class="hero__media">
+    {{#if cell_0_2}}
+    <div class="hero__media-mobile">{{cell_0_2}}</div>
+    <div class="hero__media-desktop">{{cell_0_1}}</div>
+    {{else}}
     {{cell_0_1}}
+    {{/if}}
   </div>
-  {{/if}}
   <div class="container hero__container">
     <div class="hero__content">
       {{cell_0_0}}

@@ -1,11 +1,22 @@
-<section class="metrics-section">
+<section class="metrics-section" style="{{#if backgroundImage}}background-image: url('{{backgroundImage}}'); background-size: cover; background-position: center;{{/if}}">
   <div class="container">
-    {{#if sectionTitle}}<h2 class="metrics-title">{{sectionTitle}}</h2>{{/if}}
+    {{#if cell_0_0}}
+    <div class="metrics__header">
+      {{cell_0_0}}
+    </div>
+    {{else}}
+      {{#if sectionTitle}}<h2 class="metrics-title">{{sectionTitle}}</h2>{{/if}}
+    {{/if}}
     <div class="metrics-grid">
       {{#each items}}
       <div class="metric-item">
+        {{#if logo}}
+        <div class="metric-item__icon">
+          <img src="{{logo}}" alt="Stat icon" />
+        </div>
+        {{/if}}
         <div class="metric-item__value">{{value}}</div>
-        <p class="metric-item__label">{{label}}</p>
+        <div class="metric-item__label">{{label}}</div>
       </div>
       {{/each}}
     </div>

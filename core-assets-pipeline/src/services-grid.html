@@ -1,18 +1,35 @@
 <section class="services-grid-section">
   <div class="container">
-    {{#if sectionTitle}}<h2 class="services-grid-title">{{sectionTitle}}</h2>{{/if}}
-    {{#if sectionSubtitle}}<p class="services-grid-subtitle">{{sectionSubtitle}}</p>{{/if}}
+    {{#if cell_0_0}}
+    <div class="services-grid__header">
+      {{cell_0_0}}
+    </div>
+    {{else}}
+      {{#if sectionTitle}}<h2 class="services-grid-title">{{sectionTitle}}</h2>{{/if}}
+      {{#if sectionSubtitle}}<p class="services-grid-subtitle">{{sectionSubtitle}}</p>{{/if}}
+    {{/if}}
     
     <div class="services-grid">
+      {{!-- Live card anatomy: title is baked into the card image; divider line; description --}}
       {{#each items}}
       <a href="{{link}}" class="service-card glow-effect">
+        {{#if image}}
+        <div class="service-card__image-container">
+          <img src="{{image}}" alt="{{title}} image" />
+        </div>
+        {{/if}}
         <div class="service-card__content">
-          <h3 class="service-card__title">{{title}}</h3>
+          <div class="service-card__divider"></div>
           <p class="service-card__description">{{description}}</p>
-          <span class="service-card__link">Learn more <span class="arrow">&rarr;</span></span>
         </div>
       </a>
       {{/each}}
     </div>
+
+    {{#if ctaText}}
+    <div class="services-grid__cta-container">
+      <a href="{{ctaUrl}}" class="btn btn--primary">{{ctaText}}</a>
+    </div>
+    {{/if}}
   </div>
 </section>

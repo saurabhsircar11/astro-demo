@@ -80,5 +80,33 @@
   - [x] Upgrade `renderer.ts` to strip Handlebars comments and convert Logo Scroll comment to clean HTML comment
   - [x] Fix nested h2 elements in logo-scroll.html by converting the outer h2 tag to a div class="logoscroll__title"
 
+- [x] **Phase 12: Globant Homepage Replica**
+  - [x] Add `'case-study'` to the positional list components array in `docParser.ts`
+  - [x] Create `disclaimer.html` and `disclaimer.css` inside `core-assets-pipeline/src/`
+  - [x] Create `case-study.html`, `case-study.css`, and `case-study.js` inside `core-assets-pipeline/src/`
+  - [x] Update `GLOBANT_MOCK_PAYLOAD` in `contentProvider.ts` to contain the full suite of homepage replica components
+  - [x] Update the `populate_new_authoring.mjs` script with the full set of replica components (Disclaimer, Hero, Two-Column AI Pods, Studio-Cards AI Studios, Logo-Scroll, Metrics, Services-Grid Core Studios, Case-Study Success Stories, Two-Column Careers, Two-Column Be Kind, FAQ)
+  - [x] Run the populator script to update the live Google Doc `globant-demo-new-authoring`
+  - [x] Rebuild and restart the container services to load the new assets
+  - [x] Update `test_server.mjs` to verify presence of the new replica components
+  - [x] Run benchmark tests and verify correct HTML composition and performance
 
 
+
+
+- [x] **Phase 16: Live-Site Evaluation & Full Componentization**
+  - [x] Build `scratch/capture.mjs` (Playwright + system Chrome) to screenshot live globant.com (past the Incapsula bot wall) and the replica at 1440px/390px
+  - [x] Convert hardcoded header/footer in `[...slug].astro` into authored CDN components (`header.html/.css/.js`, `footer.html/.css`) driven by positional Google Doc tables
+  - [x] Rewrite `renderer.ts` conditional parsing: balanced nested `{{#if}}` + real `{{else}}` support (fixes leaked template syntax and double-rendered hero/contact media)
+  - [x] Fix `{{{label}}}` triple-brace leak in `metrics.html`
+  - [x] Close live-site drift: dark disclaimer, headingless white metrics band, centered Let's Connect pill, light Be Kind, light contact-form card, live footer content (Contact Us / Follow Us / newsletter / legal bar), FAQ removed
+  - [x] Fix two-column eyebrow rule (`p:first-child`) and add `center` variant CSS
+  - [x] Update `scratch/test_server.mjs` (18 markers incl. header/footer + no-template-leaks) — all pass, warm SSR 26–46ms
+  - [x] Interactivity spot-checks pass: sticky header, case-study carousel, mobile hamburger; mobile width clean at 390px
+- [x] **Phase 17: Exact CSS Parity Pass**
+  - [x] Extract live design tokens from `scratch/globant_combined.css` (Heebo, #bfd732/#8cc63f/#d9e021/#6daa52, button specs)
+  - [x] Swap site typeface to Heebo (index.css tokens + async Google Fonts link in `[...slug].astro`)
+  - [x] Rebuild `.btn--primary` as live `primary-square-large` (gradient, .8rem radius) and `.btn--secondary` as live `cta-primary` (white outline pill)
+  - [x] Move "Find your industry" CTA below the studios grid via `ctaText`/`ctaUrl` key-value rows in the positional table
+  - [x] Match live section specs: hero h1 6.4rem, h2 scale 4.8rem, accelerators-card cards, services card anatomy (image + divider + description, no Know-more), metrics 4.2rem values
+  - [x] New `scratch/probe_styles.mjs` computed-style verifier — 16/16 checks pass; test_server 18/18 markers; spotcheck pass
